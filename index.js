@@ -2,7 +2,7 @@
   'use strict'
 
   const canvas = document.getElementsByTagName('canvas')[0]
-  const context = canvas.getContext('2d')
+  const context = canvas.getContext('2d', { alpha: false })
 
   function fitCanvasToViewPort() {
     canvas.width = innerWidth * devicePixelRatio
@@ -21,14 +21,22 @@
   }
 
   document.addEventListener('keydown', (event) => {
-    if (keys.hasOwnProperty(event.key)) {
+    if (!event.repeat && keys.hasOwnProperty(event.key)) {
+      const wasStatic = actions.forward === actions.backward
+
       actions[keys[event.key]] = true
+
+      toggleEngineSound(wasStatic)
     }
   })
 
   document.addEventListener('keyup', (event) => {
-    if (keys.hasOwnProperty(event.key)) {
+    if (!event.repeat && keys.hasOwnProperty(event.key)) {
+      const wasStatic = actions.forward === actions.backward
+
       actions[keys[event.key]] = false
+
+      toggleEngineSound(wasStatic)
     }
   })
 
@@ -49,17 +57,55 @@
       this.direction += (actions.left - actions.right) * 0.5 * Math.PI * delta
 
       this.speed += (actions.forward - actions.backward) * 1000 * delta
-      this.speed = Math.min(Math.max(this.speed * Math.pow(0.15, delta), -750), 750)
+      this.speed = Math.min(Math.max(this.speed * Math.pow(0.25, delta), -750), 750)
 
-      this.x += Math.cos(this.direction) * this.speed * delta
-      this.y -= Math.sin(this.direction) * this.speed * delta
+      this.x = Math.min(Math.max(this.x + Math.cos(this.direction) * this.speed * delta, -1024 * 4), 1024 * 4)
+      this.y = Math.min(Math.max(this.y - Math.sin(this.direction) * this.speed * delta, -691 * 4), 691 * 4)
     },
-    draw(camera) {
-      context.translate(this.x - camera.x, this.y - camera.y)
+    draw() {
+      context.translate(this.x, this.y)
       context.rotate(-this.direction)
+
+      context.fillStyle = 'orange'
       context.fillRect(-100, -50, 200, 100)
+
       context.rotate(this.direction)
-      context.translate(-this.x + camera.x, -this.y + camera.y)
+      context.translate(-this.x, -this.y)
+    }
+  }
+
+  const images = Object.fromEntries([
+    'stars1',
+    'stars2'
+  ].map((filename) => {
+    const image = new Image()
+
+    image.src = `images/${filename}.png`
+
+    return [filename, image]
+  }))
+
+  const sounds = Object.fromEntries([
+    ['Engine', 1]
+  ].map(([filename, volume]) => {
+    const sound = new Audio(`sounds/${filename}.wav`)
+
+    sound.volume = volume
+
+    return [filename, sound]
+  }))
+
+  sounds.Engine.addEventListener('ended', () => sounds.Engine.play())
+
+  function toggleEngineSound(wasStatic) {
+    if (wasStatic) {
+      if (actions.forward !== actions.backward) {
+        sounds.Engine.play()
+      }
+    } else {
+      if (actions.forward === actions.backward) {
+        sounds.Engine.pause()
+      }
     }
   }
 
@@ -69,14 +115,26 @@
     player.update((currentTime - previousTime) / 1000)
     previousTime = currentTime
 
-    const camera = { x: player.x - canvas.width / 2, y: player.y - canvas.height / 2 }
+    const cameraX = Math.min(Math.max(player.x - canvas.width / 2, -1024 * 4), 1024 * 4 - canvas.width)
+    const cameraY = Math.min(Math.max(player.y - canvas.height / 2, -691 * 4), 691 * 4 - canvas.height)
+    const centerX = cameraX + canvas.width / 2
+    const centerY = cameraY + canvas.height / 2
 
-    context.clearRect(0, 0, canvas.width, canvas.height)
-    player.draw(camera)
+    context.fillStyle = 'black'
+    context.fillRect(0, 0, canvas.width, canvas.height)
+    context.translate(-cameraX, -cameraY)
 
-    context.translate(-camera.x, -camera.y)
-    context.fillRect(-25, -25, 50, 50)
-    context.translate(camera.x, camera.y)
+    context.drawImage(images.stars1, 1024 * 4 / -2 + centerX / 2, 691 * 4 / -2 + centerY / 2, 1024 * 4, 691 * 4)
+    context.drawImage(images.stars2, 2992 * 2 / -2 + centerX / 4, 2500 * 2 / -2 + centerY / 4, 2992 * 2, 2500 * 2)
+
+    context.beginPath()
+    context.arc(0, 0, 500, 0, 2 * Math.PI)
+    context.fillStyle = 'navy'
+    context.fill()
+
+    player.draw()
+
+    context.translate(cameraX, cameraY)
 
     requestAnimationFrame(loop)
   }
