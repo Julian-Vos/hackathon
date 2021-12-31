@@ -12,6 +12,42 @@
   fitCanvasToViewPort()
   addEventListener('resize', fitCanvasToViewPort)
 
+  const images = Object.fromEntries([
+    'earth',
+    'stars1',
+    'stars2'
+  ].map((filename) => {
+    const image = new Image()
+
+    image.src = `images/${filename}.png`
+
+    return [filename, image]
+  }))
+
+  const sounds = Object.fromEntries([
+    ['Engine', 1]
+  ].map(([filename, volume]) => {
+    const sound = new Audio(`sounds/${filename}.wav`)
+
+    sound.volume = volume
+
+    return [filename, sound]
+  }))
+
+  sounds.Engine.addEventListener('ended', () => sounds.Engine.play())
+
+  function toggleEngineSound(wasStatic) {
+    if (wasStatic) {
+      if (actions.forward !== actions.backward) {
+        sounds.Engine.play()
+      }
+    } else {
+      if (actions.forward === actions.backward) {
+        sounds.Engine.pause()
+      }
+    }
+  }
+
   const actions = { forward: false, backward: false, left: false, right: false }
   const keys = {
     ArrowUp: 'forward', w: 'forward',
@@ -74,40 +110,37 @@
     }
   }
 
-  const images = Object.fromEntries([
-    'stars1',
-    'stars2'
-  ].map((filename) => {
-    const image = new Image()
+  class Planet {
+    constructor(image, x, y) {
+      image.addEventListener('load', () => {
+        this.halfWidth = image.width / 2
+        this.halfHeight = image.height / 2
+      })
 
-    image.src = `images/${filename}.png`
+      this.image = image
+      this.x = x
+      this.y = y
+      this.visited = false
+    }
 
-    return [filename, image]
-  }))
+    update() {
+      if (Math.abs(player.x - this.x) > this.halfWidth || Math.abs(player.y - this.y) > this.halfHeight) {
+        this.visited = false
+      } else if (!this.visited) {
+        this.visited = true
 
-  const sounds = Object.fromEntries([
-    ['Engine', 1]
-  ].map(([filename, volume]) => {
-    const sound = new Audio(`sounds/${filename}.wav`)
-
-    sound.volume = volume
-
-    return [filename, sound]
-  }))
-
-  sounds.Engine.addEventListener('ended', () => sounds.Engine.play())
-
-  function toggleEngineSound(wasStatic) {
-    if (wasStatic) {
-      if (actions.forward !== actions.backward) {
-        sounds.Engine.play()
-      }
-    } else {
-      if (actions.forward === actions.backward) {
-        sounds.Engine.pause()
+        console.log('puss notification')
       }
     }
+
+    draw() {
+      context.drawImage(this.image, this.x - this.halfWidth, this.y - this.halfHeight)
+    }
   }
+
+  const planets = [
+    new Planet(images.earth, 0, 0)
+  ]
 
   let previousTime = performance.now()
 
@@ -127,10 +160,10 @@
     context.drawImage(images.stars1, 1024 * 4 / -2 + centerX / 2, 691 * 4 / -2 + centerY / 2, 1024 * 4, 691 * 4)
     context.drawImage(images.stars2, 2992 * 2 / -2 + centerX / 4, 2500 * 2 / -2 + centerY / 4, 2992 * 2, 2500 * 2)
 
-    context.beginPath()
-    context.arc(0, 0, 500, 0, 2 * Math.PI)
-    context.fillStyle = 'navy'
-    context.fill()
+    for (const planet of planets) {
+      planet.update()
+      planet.draw()
+    }
 
     player.draw()
 
