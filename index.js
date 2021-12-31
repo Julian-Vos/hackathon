@@ -14,8 +14,8 @@
 
   const images = Object.fromEntries([
     'earth',
-    'stars1',
-    'stars2'
+    'Sterren1',
+    'Sterren2'
   ].map((filename) => {
     const image = new Image()
 
@@ -97,11 +97,11 @@
     update(delta) {
       this.direction += (actions.left - actions.right) * 0.5 * Math.PI * delta
 
-      this.speed += (actions.forward - actions.backward) * 1000 * delta
-      this.speed = Math.min(Math.max(this.speed * Math.pow(0.25, delta), -750), 750)
+      this.speed += (actions.forward - actions.backward) * 500 * delta
+      this.speed = Math.min(Math.max(this.speed * Math.pow(0.25, delta), -500), 500)
 
-      this.x = Math.min(Math.max(this.x + Math.cos(this.direction) * this.speed * delta, -1024 * 4), 1024 * 4)
-      this.y = Math.min(Math.max(this.y - Math.sin(this.direction) * this.speed * delta, -691 * 4), 691 * 4)
+      this.x = Math.min(Math.max(this.x + Math.cos(this.direction) * this.speed * delta, -7200), 7200)
+      this.y = Math.min(Math.max(this.y - Math.sin(this.direction) * this.speed * delta, -4500), 4500)
     },
     draw() {
       context.translate(this.x, this.y)
@@ -153,17 +153,15 @@
     player.update((currentTime - previousTime) / 1000)
     previousTime = currentTime
 
-    const cameraX = Math.min(Math.max(player.x - canvas.width / 2, -1024 * 4), 1024 * 4 - canvas.width)
-    const cameraY = Math.min(Math.max(player.y - canvas.height / 2, -691 * 4), 691 * 4 - canvas.height)
+    const cameraX = Math.min(Math.max(player.x - canvas.width / 2, -7200), 7200 - canvas.width)
+    const cameraY = Math.min(Math.max(player.y - canvas.height / 2, -4500), 4500 - canvas.height)
     const centerX = cameraX + canvas.width / 2
     const centerY = cameraY + canvas.height / 2
 
-    context.fillStyle = 'black'
-    context.fillRect(0, 0, canvas.width, canvas.height)
     context.translate(-cameraX, -cameraY)
 
-    context.drawImage(images.stars1, 1024 * 4 / -2 + centerX / 2, 691 * 4 / -2 + centerY / 2, 1024 * 4, 691 * 4)
-    context.drawImage(images.stars2, 2992 * 2 / -2 + centerX / 4, 2500 * 2 / -2 + centerY / 4, 2992 * 2, 2500 * 2)
+    context.drawImage(images.Sterren1, centerX / 1.6 - 3600, centerY / 1.6 - 2250, 7200, 4500)
+    context.drawImage(images.Sterren2, centerX / 6 - 7200, centerY / 6 - 4500, 14400, 9000)
 
     for (const planet of planets) {
       planet.update()
