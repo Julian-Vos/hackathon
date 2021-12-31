@@ -4,10 +4,66 @@
     <meta charset='utf-8'>
     <title>Catstronaut</title>
 
-    <link href='index.css' rel='stylesheet'>
+    <link href='css/fonts.css' rel='stylesheet'>
+    <link href='css/index.css' rel='stylesheet'>
     <script src=index.js defer></script>
   </head>
   <body>
-    <canvas></canvas>
+    <div id="game-container">
+      <canvas style="background-color: lightslategrey;"></canvas>
+
+      <div id="user-interface">
+        <div class=top-container>
+          <div class="kitten-container">
+            <div class="kitten-icon" style="max-width: 200px; max-height: 200px; position: relative;">
+              <img src="assets/icons/cat-animals-svgrepo-com.svg" alt="'(o x o)'">
+            </div>
+            <h3 class="kitten-count" id="kitten-count">2/5</h3>
+
+            <!-- OPTIONS 
+            <div style="max-width: 200px; max-height: 200px;">
+              <img src="assets/icons/cat-face-light-svgrepo-com.svg" alt="'(o x o)'">
+            </div>
+            <div style="max-width: 200px; max-height: 200px;">
+              <img src="assets/icons/cat-svgrepo-com.svg" alt="'(o x o)'">
+            </div>
+            <div style="max-width: 200px; max-height: 200px;">
+              <img src="assets/icons/cat.png" alt="'(o x o)'">
+            </div>
+            <div style="max-width: 200px; max-height: 200px;">
+              <img src="assets/icons/happy.png" alt="'(o x o)'">
+            </div> -->
+            
+          </div>
+
+          <div class="notification-container">
+            <div style="padding: 20px; background-color: lightblue;">puss notification</div>
+          </div>
+        </div>
+        
+        <div class=bottom-container>
+          <div class="help-container">
+            <div class="help-icon">?</div>
+          </div>
+
+          <div class="inventory-container">
+            <div style="padding: 20px; background-color: lightgreen;">catpack</div>
+          </div>
+        </div>
+
+      </div>
+
+
+
+      <!-- User interface:
+        * Notifications van objecten
+          - Knoppen met acties
+          - Wegklikken
+        * Aantal kittens CHECK
+        * Inventory
+        * Help
+      -->
+    </div>
+
   </body>
 </html>

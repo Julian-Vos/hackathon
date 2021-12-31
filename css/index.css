@@ -1,0 +1,90 @@
+:root {
+  --fill-color: lightseagreen;
+  --secondary-color: #3d8bb1;
+  --stroke-color: #1d2a53;
+  --white: white;
+  --black: black;
+  --red: #e74c3c;
+}
+
+body {
+  margin: 0;
+}
+
+#game-container {
+  position: relative;
+}
+
+canvas {
+  display: block;
+  height: 100vh;
+  width: 100vw;
+}
+
+#game-container canvas, #user-interface {
+  position: absolute;
+}
+
+#user-interface {
+  z-index: 1;
+  background-color: transparent;
+  display: block;
+  height: calc(100vh - 32px);
+  width: calc(100vw - 32px);
+
+  padding: 16px;
+}
+
+.top-container, .bottom-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.kitten-container {
+  width: fit-content;
+  /* background: pink; */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.kitten-container .kitten-count {
+  font-size: 24px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.kitten-container .kitten-icon {
+  position: relative;
+  display: flex;
+  width: 50px;
+}
+
+.help-container {
+  position: absolute;
+  bottom: 16px;
+}
+
+.help-icon {
+  padding: 12px 10px 10px 12px;
+  border: 3px solid var(--black);
+  border-radius: 4px;
+  font-size: 24px
+}
+
+.help-icon:hover {
+  background-color: var(--fill-color);
+  cursor: pointer;
+  transition: background 0.2s ease, padding 0.8s linear;
+}
+
+.inventory-container {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+}
+
+
+
+
