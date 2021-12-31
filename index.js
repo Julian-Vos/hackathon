@@ -49,7 +49,7 @@
       this.direction += (actions.left - actions.right) * 0.5 * Math.PI * delta
 
       this.speed += (actions.forward - actions.backward) * 1000 * delta
-      this.speed = Math.min(Math.max(this.speed * Math.pow(0.15, delta), -750), 750)
+      this.speed = Math.min(Math.max(this.speed * Math.pow(0.25, delta), -750), 750)
 
       this.x = Math.min(Math.max(this.x + Math.cos(this.direction) * this.speed * delta, -1024 * 4), 1024 * 4)
       this.y = Math.min(Math.max(this.y - Math.sin(this.direction) * this.speed * delta, -691 * 4), 691 * 4)
