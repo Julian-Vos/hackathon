@@ -34,7 +34,12 @@
     return [filename, sound]
   }))
 
-  sounds.Engine.addEventListener('ended', () => sounds.Engine.play())
+  sounds.Engine.addEventListener('timeupdate', () => {
+    if (sounds.Engine.currentTime > sounds.Engine.duration - 0.3) {
+      sounds.Engine.currentTime = 0
+      sounds.Engine.play()
+    }
+  })
 
   function toggleEngineSound(wasStatic) {
     if (wasStatic) {
