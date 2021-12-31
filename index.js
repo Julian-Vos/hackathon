@@ -41,14 +41,24 @@
   })
 
   const player = {
+    direction: 0.5 * Math.PI,
+    speed: 0,
     x: canvas.width / 2,
     y: canvas.height / 2,
     update(delta) {
-      this.x += (actions.right - actions.left) * 500 * delta
-      this.y += (actions.backward - actions.forward) * 500 * delta
+      this.direction += (actions.left - actions.right) * 0.5 * Math.PI * delta
+
+      this.speed += (actions.forward - actions.backward) * 1000 * delta
+      this.speed = Math.min(Math.max(this.speed * Math.pow(0.15, delta), -750), 750)
+
+      this.x += Math.cos(this.direction) * this.speed * delta
+      this.y -= Math.sin(this.direction) * this.speed * delta
     },
     draw() {
-      context.fillRect(this.x - 50, this.y - 100, 100, 200)
+      context.translate(this.x, this.y)
+      context.rotate(-this.direction)
+      context.fillRect(-100, -50, 200, 100)
+      context.resetTransform()
     }
   }
 
