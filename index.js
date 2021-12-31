@@ -21,14 +21,22 @@
   }
 
   document.addEventListener('keydown', (event) => {
-    if (keys.hasOwnProperty(event.key)) {
+    if (!event.repeat && keys.hasOwnProperty(event.key)) {
+      const wasStatic = actions.forward === actions.backward
+
       actions[keys[event.key]] = true
+
+      toggleEngineSound(wasStatic)
     }
   })
 
   document.addEventListener('keyup', (event) => {
-    if (keys.hasOwnProperty(event.key)) {
+    if (!event.repeat && keys.hasOwnProperty(event.key)) {
+      const wasStatic = actions.forward === actions.backward
+
       actions[keys[event.key]] = false
+
+      toggleEngineSound(wasStatic)
     }
   })
 
@@ -76,6 +84,30 @@
 
     return [filename, image]
   }))
+
+  const sounds = Object.fromEntries([
+    ['Engine', 1]
+  ].map(([filename, volume]) => {
+    const sound = new Audio(`sounds/${filename}.wav`)
+
+    sound.volume = volume
+
+    return [filename, sound]
+  }))
+
+  sounds.Engine.addEventListener('ended', () => sounds.Engine.play())
+
+  function toggleEngineSound(wasStatic) {
+    if (wasStatic) {
+      if (actions.forward !== actions.backward) {
+        sounds.Engine.play()
+      }
+    } else {
+      if (actions.forward === actions.backward) {
+        sounds.Engine.pause()
+      }
+    }
+  }
 
   let previousTime = performance.now()
 
