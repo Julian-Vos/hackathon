@@ -25,6 +25,7 @@
     'PlaneetEVIL',
     'PlaneetMELK',
     'PlaneetPLAKBAND',
+    'PlaneetWOL',
     'Ruimteschip1',
     'Ruimteschip2',
     'Ruimteschip3',
@@ -203,15 +204,17 @@
       this.dialogs = dialogs
       this.dialog = -1
       this.dialogFunc = () => {
-        if (this.dialog + 1 < this.dialogs.length && inventory.use(this.dialogs[this.dialog + 1].requires)) {
-          this.dialog++
+        if (this.dialog === -1 || !this.dialogs[this.dialog].hasOwnProperty('receives')) {
+          if (this.dialog + 1 < this.dialogs.length && inventory.use(this.dialogs[this.dialog + 1].requires)) {
+            this.dialog++
+          }
         }
 
         const dialog = this.dialogs[this.dialog]
         let warning = ''
 
         if (dialog.hasOwnProperty('receives')) {
-          if (kittens === player.boxes && dialog.receives.some((item) => item.startsWith('kitten'))) {
+          if (dialog.receives.some((item) => item.startsWith('kitten')) && kittens === player.boxes) {
             warning = "<br><br><i>(This kitten won't fit in your spaceship. Maybe we can expand?)</i>"
           } else {
             inventory.add(dialog.receives)
@@ -253,20 +256,37 @@
   const planets = [
     new Planet(images.PlaneetA, 0, 0, [
       {
-        html: 'START TEXT',
+        html: 'Oh no! One, two, three, four... all FIVE of your kittens are missing?!<br><br>Where could those little rascals be hiding?<br><br>Better find them right meow!'
       }, {
         requires: ['kitten1', 'kitten2', 'kitten3', 'kitten4', 'kitten5'],
-        html: 'END TEXT'
+        html: 'Alright: one, two, three, four... five! The litter is complete again.<br><br>Purrfect! We did it!'
       }
     ]),
-    new Planet(images.PlaneetMELK, 2000, 0, []),
+    new Planet(images.PlaneetWOL, 0, -2000, [
+      {
+        html: "What? A kitten? No haven't seen any. But then again, I constantly lose everything on this planet...<br><br>I do have this antique box though. What a treasure!",
+        receives: ['box']
+      }, {
+        html: "Ah, you're back! Turns out your kitten was here after all. He was asleep in the yarn. Here you go!",
+        receives: ['kitten1']
+      }
+    ]),
+    new Planet(images.PlaneetMELK, 2000, 0, [
+      {
+        html: "MILKYWAY MILK® station. This looks like the perfect place to get some milk! But there's no one to operate the pump..."
+      }, {
+        requires: ['worker'],
+        html: 'Ah the pump is now operative! Better get some milk for those hungry kittens.',
+        receives: ['milk']
+      }
+    ]),
     new Planet(images.PlaneetEVIL, -4000, 0, [
       {
         html: "You want to get some MILKYWAY MILK®? Yeah I guess I can help you with that, maybe...<br><br>Why don't you fetch me some of that sweet catnip? And then I'll think about it..."
       }, {
         requires: ['catnip'],
         html: 'YES! Some sweet catnip. Thanks pawl!<br><br>Oh, some milk you said? Alright, the pump is yours.<br><br>Also, is this your kitten? I found her sleeping in my cave. Now keep her close, alright? These are the dark corners of the universe.',
-        receives: ['kitten2']
+        receives: ['worker', 'kitten2']
       }
     ]),
     new Planet(images.PlaneetPLAKBAND, 4000, 0, [
@@ -274,11 +294,11 @@
         html: "Why hello there, a fellow pawrent! Aren't they just the sweetest?<br><br>You what? Lost your kittens? Oh dear...<br><br>I would help you look for them, but I really have to get these babies some milk.",
       }, {
         requires: ['milk'],
-        html: "You got me milk for my babies! You're a great help. Thanks so much! You know how busy it gets...<br><br>Hey, I just counted my babies and I got a +1, he must be yours. On your way now!",
+        html: "You got me milk for my babies! You're a great help. Thanks so much! You know how busy it gets...<br><br>Hey, I just counted my babies and I got a +1, he must be yours.<br><br>Come back to tape-planet anytime you want! And of course, the tape is always free.",
         receives: ['kitten3']
       }, {
         requires: ['box'],
-        html: "FIX BOX TEXT"
+        html: 'On your way now!'
       }
     ]),
     new Planet(images.PlaneetCATNIP, -2000, 0, [
@@ -287,7 +307,8 @@
         receives: ['kitten4']
       }, {
         requires: ['flowers'],
-        html: 'Hey you! Are you here to lose your kitten again?!<br><br>Wha? You got me flowers? Oh... Thank you so much!<br><br>Sorry for being rude before. It just gets so lonely here you know...'
+        html: 'Hey you! Are you here to lose your kitten again?!<br><br>Wha? You got me flowers? Oh... Thank you so much!<br><br>Sorry for being rude before. It just gets so lonely here you know...<br><br>Here, have some herbs. It will make you feel better in stressful times.',
+        receives: ['catnip']
       }
     ])
   ]
@@ -300,7 +321,11 @@
 
     update() {
       if (Math.abs(player.x - this.x) <= Box.halfWidth && Math.abs(player.y - this.y) <= Box.halfHeight) {
-        if (++player.boxes === 5) {
+        player.boxes++
+
+        if (boxes.length === 3) {
+          inventory.add(['flowers'])
+        } else if (boxes.length === 1) {
           inventory.add(['kitten5'])
         }
 
@@ -317,8 +342,7 @@
     new Box(0, 1000),
     new Box(0, 1500),
     new Box(0, 2000),
-    new Box(0, 2500),
-    new Box(0, 3000)
+    new Box(0, 2500)
   ]
 
   const inventory = {
@@ -327,7 +351,7 @@
       for (const item of items) {
         if (item.startsWith('kitten')) {
           kittenSpan.textContent = ++kittens
-        } else {
+        } else if (item !== 'worker') {
           // add item's image to UI
         }
 
@@ -346,11 +370,11 @@
       }
 
       for (const index of indices) {
-        if (!item.startsWith('kitten')) {
+        if (!this.items[index].startsWith('kitten') && this.items[index] !== 'worker') {
           // remove item's image from UI
-        }
 
-        this.items.splice(index, 1)
+          this.items.splice(index, 1)
+        }
       }
 
       return true
