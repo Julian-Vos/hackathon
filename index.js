@@ -7,6 +7,8 @@
   function fitCanvasToViewPort() {
     canvas.width = innerWidth * devicePixelRatio
     canvas.height = innerHeight * devicePixelRatio
+
+    context.strokeStyle = 'white'
   }
 
   fitCanvasToViewPort()
@@ -65,6 +67,8 @@
             clearInterval(engineFadeInterval)
 
             sounds.Engine.pause()
+
+            player.bubbling = -1
           }
         }, 100)
       }
@@ -81,6 +85,8 @@
         }, 100)
 
         sounds.Engine.play()
+
+        player.bubbling = sounds.Engine.volume
       }
     }
   }
@@ -130,6 +136,7 @@
     speed: 0,
     x: 0,
     y: 0,
+    bubbling: -1,
     boxes: 0,
     update(delta) {
       this.direction += (actions.left - actions.right) * 0.5 * Math.PI * delta
@@ -139,10 +146,30 @@
 
       this.x = Math.min(Math.max(this.x + Math.cos(this.direction) * this.speed * delta, -7200), 7200)
       this.y = Math.min(Math.max(this.y - Math.sin(this.direction) * this.speed * delta, -4500), 4500)
+
+      if (this.bubbling >= 1) {
+        this.bubbling -= 0.2
+      } else if (this.bubbling >= 0) {
+        this.bubbling += delta
+      }
     },
     draw() {
       context.translate(this.x, this.y)
       context.rotate(0.5 * Math.PI - this.direction)
+
+      if (this.bubbling >= 0) {
+        const offset = this.boxes === 0 ? -95 : 32
+
+        for (let i = 0; i < 5; i++) {
+          const y = offset + this.bubbling * 160 + i * 30
+
+          context.globalAlpha = Math.max(sounds.Engine.volume * 2 - y / (offset + 280), 0)
+          context.beginPath()
+          context.arc(0, y, 10, 0, 2 * Math.PI)
+          context.stroke()
+          context.globalAlpha = 1
+        }
+      }
 
       const image = images[`Ruimteschip${this.boxes + 1}`]
 
