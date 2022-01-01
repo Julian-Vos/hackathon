@@ -74,7 +74,6 @@ canvas {
 
 .kitten-container {
   width: fit-content;
-  /* background: pink; */
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -302,6 +301,61 @@ canvas {
   }
 }
 
+.inventory-inner {
+  height: calc(70vh - 80px);
+  padding: 50px 30px 30px 30px;
+  color: var(--white);
+}
+
+.item-container {
+  height: calc(55vh - 80px);
+  overflow: hidden;
+}
+
+.item-slots {
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.item-slot {
+  border: 3px solid var(--white);
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 45%;
+  height: 45%;
+  margin-right: 5%;
+  margin-bottom: 5%;
+  box-shadow: inset 0 3px 3px 0px #fff,inset 0 9px 10px 0px #0cada3;
+  border-radius: 4px;
+}
+
+.item-slot.item-second,
+.item-slot.item-fourth {
+  margin-right: 0%;
+}
+
+.item-slot.item-third,
+.item-slot.item-fourth {
+  margin-bottom: 0%;
+}
+
+@media screen and (min-width: 576px) {
+  .item-slots {
+    align-items: center;
+  }
+
+  .item-slot {
+    width: 20%;
+    max-width: 20%;
+    margin-right: 5%;
+    margin-bottom: 0;
+  }
+
+  .item-slot.item-second {
+    margin-right: 5%;
+  }
+}
+
 .close-button {
   width: 50px;
   height: 50px;
@@ -361,7 +415,7 @@ canvas {
 
 .type {
   font-family: monospace;
-  font-size: 24px;
+  font-size: 16px;
   color:#0000;
   background:
     linear-gradient(-90deg, var(--white) 5px,#0000 0) 10px 0,
@@ -374,6 +428,13 @@ canvas {
     b .7s infinite steps(1),   
     t calc(var(--n)*.05s) steps(var(--n)) forwards;
 }
+
+@media screen and (min-width: 576px) {
+  .type {
+    font-size: 24px;
+  }
+}
+
 @keyframes t{
   from {background-size:0 200%}
 }
