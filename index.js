@@ -49,9 +49,9 @@
 
   let engineFadeInterval
 
-  function toggleEngineSound() {
+  function toggleEngineSound(wasStatic) {
     if (actions.forward === actions.backward) {
-      if (!sounds.Engine.paused) {
+      if (!wasStatic) {
         clearInterval(engineFadeInterval)
 
         engineFadeInterval = setInterval(() => {
@@ -65,7 +65,7 @@
         }, 100)
       }
     } else {
-      if (sounds.Engine.paused) {
+      if (wasStatic) {
         clearInterval(engineFadeInterval)
 
         engineFadeInterval = setInterval(() => {
@@ -91,27 +91,33 @@
 
   document.addEventListener('keydown', (event) => {
     if (!event.repeat && keys.hasOwnProperty(event.key)) {
+      const wasStatic = actions.forward === actions.backward
+
       actions[keys[event.key]] = true
 
-      toggleEngineSound()
+      toggleEngineSound(wasStatic)
     }
   })
 
   document.addEventListener('keyup', (event) => {
     if (!event.repeat && keys.hasOwnProperty(event.key)) {
+      const wasStatic = actions.forward === actions.backward
+
       actions[keys[event.key]] = false
 
-      toggleEngineSound()
+      toggleEngineSound(wasStatic)
     }
   })
 
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
+      const wasStatic = actions.forward === actions.backward
+
       for (const action in actions) {
         actions[action] = false
       }
 
-      sounds.Engine.pause()
+      toggleEngineSound(wasStatic)
     }
   })
 
