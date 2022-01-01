@@ -13,7 +13,11 @@
   addEventListener('resize', fitCanvasToViewPort)
 
   const images = Object.fromEntries([
-    'earth',
+    'PlaneetA',
+    'PlaneetCATNIP',
+    'PlaneetEVIL',
+    'PlaneetMELK',
+    'PlaneetPLAKBAND',
     'Ruimteschip1',
     'Ruimteschip2',
     'Ruimteschip3',
@@ -49,9 +53,9 @@
 
   let engineFadeInterval
 
-  function toggleEngineSound() {
+  function toggleEngineSound(wasStatic) {
     if (actions.forward === actions.backward) {
-      if (!sounds.Engine.paused) {
+      if (!wasStatic) {
         clearInterval(engineFadeInterval)
 
         engineFadeInterval = setInterval(() => {
@@ -65,7 +69,7 @@
         }, 100)
       }
     } else {
-      if (sounds.Engine.paused) {
+      if (wasStatic) {
         clearInterval(engineFadeInterval)
 
         engineFadeInterval = setInterval(() => {
@@ -91,27 +95,33 @@
 
   document.addEventListener('keydown', (event) => {
     if (!event.repeat && keys.hasOwnProperty(event.key)) {
+      const wasStatic = actions.forward === actions.backward
+
       actions[keys[event.key]] = true
 
-      toggleEngineSound()
+      toggleEngineSound(wasStatic)
     }
   })
 
   document.addEventListener('keyup', (event) => {
     if (!event.repeat && keys.hasOwnProperty(event.key)) {
+      const wasStatic = actions.forward === actions.backward
+
       actions[keys[event.key]] = false
 
-      toggleEngineSound()
+      toggleEngineSound(wasStatic)
     }
   })
 
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
+      const wasStatic = actions.forward === actions.backward
+
       for (const action in actions) {
         actions[action] = false
       }
 
-      sounds.Engine.pause()
+      toggleEngineSound(wasStatic)
     }
   })
 
@@ -175,7 +185,11 @@
   }
 
   const planets = [
-    new Planet(images.earth, 0, 0)
+    new Planet(images.PlaneetEVIL, -4000, 0),
+    new Planet(images.PlaneetCATNIP, -2000, 0),
+    new Planet(images.PlaneetA, 0, 0),
+    new Planet(images.PlaneetMELK, 2000, 0),
+    new Planet(images.PlaneetPLAKBAND, 4000, 0)
   ]
 
   let previousTime = performance.now()
