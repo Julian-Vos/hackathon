@@ -31,7 +31,7 @@
   }))
 
   const sounds = Object.fromEntries([
-    ['Engine', 1]
+    ['Engine', 0]
   ].map(([filename, volume]) => {
     const sound = new Audio(`sounds/${filename}.wav`)
 
@@ -47,11 +47,37 @@
     }
   })
 
+  let engineFadeInterval
+
   function toggleEngineSound() {
     if (actions.forward === actions.backward) {
-      sounds.Engine.pause()
+      if (!sounds.Engine.paused) {
+        clearInterval(engineFadeInterval)
+
+        engineFadeInterval = setInterval(() => {
+          if (sounds.Engine.volume > 0.01) {
+            sounds.Engine.volume -= 0.05
+          } else {
+            clearInterval(engineFadeInterval)
+
+            sounds.Engine.pause()
+          }
+        }, 100)
+      }
     } else {
-      sounds.Engine.play()
+      if (sounds.Engine.paused) {
+        clearInterval(engineFadeInterval)
+
+        engineFadeInterval = setInterval(() => {
+          if (sounds.Engine.volume < 0.49) {
+            sounds.Engine.volume += 0.05
+          } else {
+            clearInterval(engineFadeInterval)
+          }
+        }, 100)
+
+        sounds.Engine.play()
+      }
     }
   }
 
