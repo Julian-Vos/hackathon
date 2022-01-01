@@ -11,7 +11,9 @@
   </head>
   <body>
 
-    <div id="welcome-container" class="welcome-container" style="width: 100vw; height: 100vh; display: none; background-color: black;"></div>
+    <!-- <div id="welcome-container" class="welcome-container" style="width: 100vw; height: 100vh; background-color: black;">
+      
+    </div> -->
 
     <div id="game-container">
       <canvas></canvas>
@@ -52,9 +54,9 @@
           <div class="dialog-inner inner">
             <div class="dialog-left">
                 <img class="portrait" src="assets/portraits/cat-meme.jpeg" alt="Portrait">
-                <h4 class="planet-name">Home planet</h4>
             </div>
             <div class="dialog-right">
+              <h4 class="puss-notification">* Puss Notification *</h4>
               <span class="type"></span>
             </div>
           </div>
@@ -69,20 +71,33 @@
             <span class="type" style="--n:58">These are the things you've collected so far. Nice cat-ch!</span>
             <div class="item-container">
               <div class="item-slots">
-                <div class="item-slot item-first"></div>
-                <div class="item-slot item-second"></div>
-                <div class="item-slot item-third"></div>
-                <div class="item-slot item-fourth"></div>
-
+                <!-- Give item-slot the class "show" to display item -->
+                <div class="item-slot item-first">
+                  <img class="item milk-item" style="display: none;" src="assets/items/Melk.png" alt="Portrait">
+                  <span class="tooltip-text" style="visibility: hidden;">
+                    MILKYWAY MILK© || The tastiest milk in the universe. Kittens really love it.
+                  </span>
+                </div>
+                <div class="item-slot item-second">
+                  <img class="item box-item" style="display: none;" src="assets/items/Kapottedoos.png" alt="Portrait">
+                  <span class="tooltip-text" style="visibility: hidden;">
+                    BROKEN CARDBOARD BOX || If only you had some tape to repair it...
+                  </span>
+                </div>
+                <div class="item-slot item-third">
+                  <img class="item catnip-item" style="display: none;" src="assets/items/Catnip.png" alt="Portrait">
+                  <span class="tooltip-text" style="visibility: hidden;">
+                    CATNIP || Adds an extra dimension of "space" to "cats in space".
+                  </span>
+                </div>
+                <div class="item-slot item-fourth">
+                  <img class="item flower-item" style="display: none;" src="assets/items/Bloemen.png" alt="Portrait">
+                  <span class="tooltip-text" style="visibility: hidden;">
+                    FLOWERS || Definitely not as sweet as catnip, but a really sweet gift.
+                  </span>
+                </div>
               </div>
-              <!-- <img class="item milk-item" src="assets/portraits/cat-meme.jpeg" alt="Portrait">
-              <img class="item box-item" src="assets/portraits/cat-meme.jpeg" alt="Portrait">
-              <img class="item catnip-item" src="assets/portraits/cat-meme.jpeg" alt="Portrait">
-              <img class="item flower-item" src="assets/portraits/cat-meme.jpeg" alt="Portrait"> -->
             </div>
-            <!-- <p>Kapotte doos</p>
-            <p>Bloemen</p>
-            <p>Catnip</p> -->
           </div>
         </div>
       </div>

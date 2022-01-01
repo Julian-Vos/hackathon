@@ -7,6 +7,11 @@
   --red: #e74c3c;
 }
 
+#welcome-container {
+  background-image: url("images/Sterren2.png");
+}
+
+
 @keyframes shake {
   0% { transform: translate(1px, 1px) rotate(0deg); }
   10% { transform: translate(-1px, -2px) rotate(-1deg); }
@@ -183,7 +188,10 @@ canvas {
 
 .dialog-right {
   width: 70%;
+}
 
+.dialog-right .puss-notification {
+  margin-top: 0;
 }
 
 .portrait {
@@ -325,8 +333,9 @@ canvas {
   height: 45%;
   margin-right: 5%;
   margin-bottom: 5%;
-  box-shadow: inset 0 3px 3px 0px #fff,inset 0 9px 10px 0px #0cada3;
+  box-shadow: inset 0 1px 3px 0px #fff,inset 0 9px 10px 0px #0cada3;
   border-radius: 4px;
+  transition: 5ms;
 }
 
 .item-slot.item-second,
@@ -337,6 +346,46 @@ canvas {
 .item-slot.item-third,
 .item-slot.item-fourth {
   margin-bottom: 0%;
+}
+
+.item-slot img {
+  max-width: 100%;
+  max-height: 100%;
+  height: 100%;
+  object-fit: cover;
+  overflow: hidden;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.item-slot:hover {
+  background-color: black;
+  transition: 5ms;
+}
+
+.item-slot .tooltip-text {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #333;
+  color: #fff;
+  font-family: monospace;
+  padding: 10px 30px;
+}
+
+.item-slot:hover .tooltip-text {
+  display: block;
+}
+
+.item-slot.show .item {
+  display: block !important;
+} 
+
+.item-slot.show .tooltip-text {
+  visibility: visible !important;
 }
 
 @media screen and (min-width: 576px) {

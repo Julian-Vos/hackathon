@@ -233,7 +233,7 @@
   const planets = [
     new Planet(images.PlaneetA, 0, 0, [
       {
-        html: 'START TEXT',
+        html: 'Oh no! One, two, three, four... all FIVE of your kittens are missing?! <br><br>Where could those little rascals be hidding? <br><br>Better find them right meow!',
       }, {
         requires: ['kitten1', 'kitten2', 'kitten3', 'kitten4', 'kitten5'],
         html: 'END TEXT'
