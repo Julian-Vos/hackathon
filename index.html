@@ -38,7 +38,8 @@
             <div class="help-icon">?</div>
           </div>
 
-          <div class="inventory-container" onclick="toggleInventory()">
+          <!-- Add class 'wiggle' when finding inventory object -->
+          <div id="inventory" class="inventory-container" onclick="toggleInventory()">
             <div class="inventory-icon">
               <img src="assets/icons/inventory-icon.png" alt="Catpack">
             </div>
@@ -51,7 +52,7 @@
           <div class="dialog-inner inner">
             <div class="dialog-left">
                 <img class="portrait" src="assets/portraits/cat-meme.jpeg" alt="Portrait">
-                <h4 class="name">Cat Meme</h4>
+                <h4 class="planet-name">Home planet</h4>
             </div>
             <div class="dialog-right">
               <span class="type" style="--n:110">"What? A kitten? <br><br> No haven’t seen any. But then again, I constantly lose everything on this planet..."</span>
@@ -82,16 +83,6 @@
           </div>
         </div>
       </div>
-
-
-      <!-- User interface:
-        * Notifications van objecten
-          - Knoppen met acties
-          - Wegklikken
-        * Aantal kittens CHECK
-        * Inventory
-        * Help
-      -->
     </div>
 
   </body>
