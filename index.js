@@ -160,6 +160,8 @@
     const centerX = cameraX + canvas.width / 2
     const centerY = cameraY + canvas.height / 2
 
+    context.fillStyle = '#000522'
+    context.fillRect(0, 0, canvas.width, canvas.height)
     context.translate(-cameraX, -cameraY)
 
     context.drawImage(images.Sterren1, centerX / 1.6 - 3600, centerY / 1.6 - 2250, 7200, 4500)
