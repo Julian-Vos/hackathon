@@ -13,7 +13,11 @@
   addEventListener('resize', fitCanvasToViewPort)
 
   const images = Object.fromEntries([
-    'earth',
+    'PlaneetA',
+    'PlaneetCATNIP',
+    'PlaneetEVIL',
+    'PlaneetMELK',
+    'PlaneetPLAKBAND',
     'Ruimteschip1',
     'Ruimteschip2',
     'Ruimteschip3',
@@ -178,7 +182,11 @@
   }
 
   const planets = [
-    new Planet(images.earth, 0, 0)
+    new Planet(images.PlaneetEVIL, -4000, 0),
+    new Planet(images.PlaneetCATNIP, -2000, 0),
+    new Planet(images.PlaneetA, 0, 0),
+    new Planet(images.PlaneetMELK, 2000, 0),
+    new Planet(images.PlaneetPLAKBAND, 4000, 0)
   ]
 
   let previousTime = performance.now()
