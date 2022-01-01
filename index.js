@@ -48,7 +48,23 @@
   })
 
   const sounds = Object.fromEntries([
-    ['Engine', 0]
+    ['catnip_cat_meow', 1],
+    ['catstronaut_meow', 1],
+    ['criminal_cat_meow', 1],
+    ['Engine', 0],
+    ['hoarder_cat_meow', 1],
+    ['item_received', 1],
+    ['kitten_collected', 1],
+    ['kitten_found', 1],
+    ['menu_close', 1],
+    ['menu_open', 1],
+    ['mother_cat_meow', 1],
+    ['mouse_over_effect', 1],
+    ['no_space_for_kitten', 1],
+    ['notification', 1],
+    ['ship_upgrade', 1],
+    ['starting_game', 1],
+    ['typewriter', 1]
   ].map(([filename, volume]) => {
     const sound = new Audio(`sounds/${filename}.wav`)
 
