@@ -194,12 +194,16 @@
     }
 
     update() {
-      if (Math.abs(player.x - this.x) > this.halfWidth || Math.abs(player.y - this.y) > this.halfHeight) {
-        this.visited = false
-      } else if (!this.visited) {
-        this.visited = true
+      if (Math.abs(player.x - this.x) <= this.halfWidth && Math.abs(player.y - this.y) <= this.halfHeight) {
+        if (!this.visited) {
+          console.log('puss notification')
 
-        console.log('puss notification')
+          this.visited = true
+        }
+      } else {
+        if (this.visited) {
+          this.visited = false
+        }
       }
     }
 
