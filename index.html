@@ -7,6 +7,7 @@
     <link href='css/fonts.css' rel='stylesheet'>
     <link href='css/index.css' rel='stylesheet'>
     <script src=index.js defer></script>
+    <script src=dialog.js defer></script>
   </head>
   <body>
     <div id="game-container">
@@ -16,7 +17,7 @@
         <div class=top-container>
           <div class="kitten-container">
             <div class="kitten-icon" style="max-width: 200px; max-height: 200px; position: relative;">
-              <img src="assets/icons/cat-animals-svgrepo-com.svg" alt="'(o x o)'">
+              <img src="assets/icons/kitten-count-icon.svg" alt="'(o x o)'">
             </div>
             <h3 class="kitten-count" id="kitten-count">2/5</h3>
 
@@ -37,22 +38,64 @@
           </div>
 
           <div class="notification-container">
-            <div style="padding: 20px; background-color: lightblue;">puss notification</div>
+            <div id="notification" class="notification-icon" onclick="notification()">
+              <img class="inactive" src="assets/icons/walkie-talkie-icon.png" alt="messages">
+              <img class="active" src="assets/icons/notification-icon.png" alt="messages">
+            </div>
           </div>
         </div>
         
         <div class=bottom-container>
-          <div class="help-container">
+          <div class="help-container" onclick="toggleHelp()">
             <div class="help-icon">?</div>
           </div>
 
-          <div class="inventory-container">
-            <div style="padding: 20px; background-color: lightgreen;">catpack</div>
-          </div>
+          <div class="inventory-container" onclick="toggleInventory()">
+            <div class="inventory-icon">
+              <img src="assets/icons/inventory-icon.png" alt="Catpack">
+            </div>
         </div>
-
       </div>
 
+      <div id="dialog-container" style="display: none;">
+        <div id="dialog-box">
+          <div id="close-btn" class="close-button" onclick="toggleDialog()"></div>
+          <div class="dialog-inner inner">
+            <div class="dialog-left">
+              <!-- <div class="image-container"> -->
+                <img class="portrait" src="assets/portraits/cat-meme.jpeg" alt="Portrait">
+                <h4 class="name">Cat Meme</h4>
+              <!-- </div> -->
+            </div>
+            <div class="dialog-right">
+              <span class="type" style="--n:110">"What? A kitten? <br><br> No haven’t seen any. But then again, I constantly lose everything on this planet..."</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="inventory-container" style="display: none;">
+        <div id="inventory-box">
+          <div id="close-btn" class="close-button" onclick="toggleInventory()"></div>
+          <div class="Inventory inner">
+            <h3>Purrse</h3>
+            <span class="type" style="--n:58">These are the things you've collected so far. Nice cat-ch!</span>
+            <p>Kapotte doos</p>
+            <p>Bloemen</p>
+            <p>Catnip</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="help-container" style="display: none;">
+        <div id="help-box">
+          <div id="close-btn" class="close-button" onclick="toggleHelp()"></div>
+          <div class="help-inner inner">
+            <h3>How to play</h3>
+            <span class="type" style="--n:155">Use the "asdw" or arrow keys on your keyboard to move through space. Use the mouse to interact. Your kittens are missing! Find them, before it is too late.</span>
+          </div>
+        </div>
+      </div>
 
 
       <!-- User interface:

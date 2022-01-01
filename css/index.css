@@ -7,6 +7,38 @@
   --red: #e74c3c;
 }
 
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+@keyframes bounce {
+	0%, 100%, 20%, 50%, 80% {
+		-webkit-transform: translateY(0);
+		-ms-transform:     translateY(0);
+		transform:         translateY(0)
+	}
+	40% {
+		-webkit-transform: translateY(-20px);
+		-ms-transform:     translateY(-20px);
+		transform:         translateY(-20px)
+	}
+	60% {
+		-webkit-transform: translateY(-15px);
+		-ms-transform:     translateY(-15px);
+		transform:         translateY(-15px)
+	}
+}
+
 body {
   margin: 0;
 }
@@ -53,6 +85,7 @@ canvas {
   font-size: 24px;
   padding-left: 10px;
   padding-right: 10px;
+  color: var(--white);
 }
 
 .kitten-container .kitten-icon {
@@ -68,9 +101,10 @@ canvas {
 
 .help-icon {
   padding: 12px 10px 10px 12px;
-  border: 3px solid var(--black);
+  border: 3px solid var(--white);
   border-radius: 4px;
-  font-size: 24px
+  font-size: 24px;
+  color: var(--white);
 }
 
 .help-icon:hover {
@@ -85,6 +119,189 @@ canvas {
   right: 16px;
 }
 
+.inventory-icon img,
+.notification-icon .inactive {
+  width: 64px;
+  position: relative;
+}
 
+.notification-icon:hover {
+  cursor: pointer;
+}
 
+.notification-icon .inactive {
+  right: 5px;
+}
 
+.notification-icon .active,
+.notification-icon.active .inactive {
+  display: none;
+}
+
+.notification-icon .inactive,
+.notification-icon.active .active {
+  display: block;
+}
+
+.notification-icon.active img {
+  width: 73px;
+}
+
+.notification-icon.active {
+  animation: shake 1s;
+  animation-iteration-count: 7;
+}
+
+.inventory-icon:hover {
+  cursor: pointer;
+
+}
+
+.inventory-icon {
+  -webkit-animation-duration: 1.7s;
+  animation-duration: 1.7s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+  color: var(--white);
+}
+.inventory-icon:hover {
+  cursor: pointer;
+  animation-name: bounce;
+  -moz-animation-name: bounce;
+}
+
+.dialog-inner {
+  display: flex;
+  height: calc(100% - 62px);
+}
+
+.dialog-left {
+  width: 30%;
+}
+
+.dialog-right {
+  width: 70%;
+
+}
+
+.portrait {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: 2px solid var(--white);
+  border-radius: 4px;
+}
+
+#dialog-container,
+#help-container,
+#inventory-container {
+  background-color: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  top:0px;
+  right:0px;
+  bottom:0px;
+  left:0px;
+}
+
+#dialog-box,
+#help-box,
+#inventory-box {
+  width: 90vw;
+  height: 70vh;
+  border: 4px solid white;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@media screen and (min-width: 1024px) {
+  #dialog-box,
+  #inventory-box {
+    width: 80vw;
+  }
+}
+
+.close-button {
+  width: 50px;
+  height: 50px;
+  right: 0;
+  position: absolute;
+}
+.close-button:before,
+.close-button:after {
+  content: '';
+  width: 55%;
+  height: 2px;
+  background: #ffffff;
+  position: absolute;
+  top: 48%;
+  left: 22%;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -ms-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+}
+.close-button:after {
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -ms-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+}
+.close-button:hover:before,
+.close-button:hover:after {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.inner {
+  padding: 50px 30px 30px 30px;
+  color: var(--white);
+}
+
+.inner p {
+  color: var(--white);
+}
+
+.type {
+  font-family: monospace;
+  font-size: 24px;
+  color:#0000;
+  background:
+    linear-gradient(-90deg, var(--white) 5px,#0000 0) 10px 0,
+    linear-gradient(var(--white) 0 0) 0 0;
+  background-size:calc(var(--n)*1ch) 200%;
+  -webkit-background-clip:padding-box,text;
+  background-clip:padding-box,text;
+  background-repeat:no-repeat;
+  animation: 
+    b .7s infinite steps(1),   
+    t calc(var(--n)*.05s) steps(var(--n)) forwards;
+}
+@keyframes t{
+  from {background-size:0 200%}
+}
+@keyframes b{
+  50% {background-position:0 -100%,0 0}
+}

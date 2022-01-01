@@ -137,6 +137,9 @@
         this.visited = true
 
         console.log('puss notification')
+
+        var notification = document.getElementById("notification");
+        notification.classList.toggle("active");
       }
     }
 
