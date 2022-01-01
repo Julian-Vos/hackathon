@@ -18,6 +18,7 @@
   addEventListener('resize', fitCanvasToViewPort)
 
   const images = Object.fromEntries([
+    'Doos',
     'PlaneetA',
     'PlaneetCATNIP',
     'PlaneetEVIL',
@@ -38,6 +39,11 @@
 
     return [filename, image]
   }))
+
+  images.Doos.addEventListener('load', () => {
+    Box.halfWidth = images.Doos.width / 2
+    Box.halfHeight = images.Doos.height / 2
+  })
 
   const sounds = Object.fromEntries([
     ['Engine', 0]
@@ -272,6 +278,33 @@
     ])
   ]
 
+  class Box {
+    constructor(x, y) {
+      this.x = x
+      this.y = y
+    }
+
+    update() {
+      if (Math.abs(player.x - this.x) <= Box.halfWidth && Math.abs(player.y - this.y) <= Box.halfHeight) {
+        player.boxes++
+
+        return true
+      }
+    }
+
+    draw() {
+      context.drawImage(images.Doos, this.x - Box.halfWidth, this.y - Box.halfHeight)
+    }
+  }
+
+  const boxes = [
+    new Box(0, 1000),
+    new Box(0, 1500),
+    new Box(0, 2000),
+    new Box(0, 2500),
+    new Box(0, 3000)
+  ]
+
   const inventory = {
     items: [],
     add(items = []) {
@@ -323,6 +356,14 @@
     for (const planet of planets) {
       planet.update()
       planet.draw()
+    }
+
+    for (let i = boxes.length - 1; i >= 0; i--) {
+      if (boxes[i].update()) {
+        boxes.splice(i, 1)
+      } else {
+        boxes[i].draw()
+      }
     }
 
     player.draw()
