@@ -231,19 +231,45 @@
   }
 
   const planets = [
-    new Planet(images.PlaneetEVIL, -4000, 0, []),
-    new Planet(images.PlaneetCATNIP, -2000, 0, []),
     new Planet(images.PlaneetA, 0, 0, [
       {
-        html: 'What? A kitten?<br><br>No haven’t seen any. But then again, I constantly lose everything on this planet...',
-        receives: ['kitten1', 'kitten2', 'kitten3', 'kitten4', 'kitten5']
+        html: 'START TEXT',
       }, {
         requires: ['kitten1', 'kitten2', 'kitten3', 'kitten4', 'kitten5'],
-        html: 'YOU DID IT'
+        html: 'END TEXT'
       }
     ]),
     new Planet(images.PlaneetMELK, 2000, 0, []),
-    new Planet(images.PlaneetPLAKBAND, 4000, 0, [])
+    new Planet(images.PlaneetEVIL, -4000, 0, [
+      {
+        html: "You want to get some MILKYWAY MILK®? Yeah I guess I can help you with that, maybe...<br><br>Why don't you fetch me some of that sweet catnip? And then I'll think about it..."
+      }, {
+        requires: ['catnip'],
+        html: 'YES! Some sweet catnip. Thanks pawl!<br><br>Oh, some milk you said? Alright, the pump is yours.<br><br>Also, is this your kitten? I found her sleeping in my cave. Now keep her close, alright? These are the dark corners of the universe.',
+        receives: ['kitten2']
+      }
+    ]),
+    new Planet(images.PlaneetPLAKBAND, 4000, 0, [
+      {
+        html: "Why hello there, a fellow pawrent! Aren't they just the sweetest?<br><br>You what? Lost your kittens? Oh dear...<br><br>I would help you look for them, but I really have to get these babies some milk.",
+      }, {
+        requires: ['milk'],
+        html: "You got me milk for my babies! You're a great help. Thanks so much! You know how busy it gets...<br><br>Hey, I just counted my babies and I got a +1, he must be yours. On your way now!",
+        receives: ['kitten3']
+      }, {
+        requires: ['box'],
+        html: "FIX BOX TEXT"
+      }
+    ]),
+    new Planet(images.PlaneetCATNIP, -2000, 0, [
+      {
+        html: "Oh finally! You're just on time! I have been trying to get this kitten out of the tree for hours, but she just won't move.<br><br>She is yours? So this is all your fault! You better repay me for my efforts.",
+        receives: ['kitten4']
+      }, {
+        requires: ['flowers'],
+        html: 'Hey you! Are you here to lose your kitten again?!<br><br>Wha? You got me flowers? Oh... Thank you so much!<br><br>Sorry for being rude before. It just gets so lonely here you know...'
+      }
+    ])
   ]
 
   const inventory = {
