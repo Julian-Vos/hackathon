@@ -1,6 +1,9 @@
 (() => {
   'use strict'
 
+  const notification = document.getElementById('notification')
+  const dialogSpan = document.querySelector('.dialog-right > span')
+
   const canvas = document.getElementsByTagName('canvas')[0]
   const context = canvas.getContext('2d', { alpha: false })
 
@@ -181,7 +184,7 @@
   }
 
   class Planet {
-    constructor(image, x, y) {
+    constructor(image, x, y, dialogs) {
       image.addEventListener('load', () => {
         this.halfWidth = image.width / 2
         this.halfHeight = image.height / 2
@@ -190,23 +193,34 @@
       this.image = image
       this.x = x
       this.y = y
-      this.visited = false
+      this.dialogs = dialogs
+      this.dialog = -1
+      this.dialogFunc = () => {
+        if (this.dialog + 1 < this.dialogs.length && inventory.use(this.dialogs[this.dialog + 1].requires)) {
+          inventory.add(this.dialogs[++this.dialog].receives)
+        }
+
+        dialogSpan.innerHTML = `"${this.dialogs[this.dialog].html}"`
+        dialogSpan.style.setProperty('--n', dialogSpan.textContent.length)
+
+        notificationFunc()
+      }
     }
 
     update() {
-      var notification = document.getElementById("notification");
-
       if (Math.abs(player.x - this.x) <= this.halfWidth && Math.abs(player.y - this.y) <= this.halfHeight) {
         if (!this.visited) {
-          console.log('puss notification')
-
           this.visited = true
-          notification.classList.add("active");
+
+          notification.classList.add('active')
+          notification.onclick = this.dialogFunc
         }
       } else {
         if (this.visited) {
           this.visited = false
-          notification.classList.remove("active");
+
+          notification.classList.remove('active')
+          notification.removeAttribute('onclick')
         }
       }
     }
@@ -217,30 +231,48 @@
   }
 
   const planets = [
-    new Planet(images.PlaneetEVIL, -4000, 0),
-    new Planet(images.PlaneetCATNIP, -2000, 0),
-    new Planet(images.PlaneetA, 0, 0),
-    new Planet(images.PlaneetMELK, 2000, 0),
-    new Planet(images.PlaneetPLAKBAND, 4000, 0)
+    new Planet(images.PlaneetEVIL, -4000, 0, []),
+    new Planet(images.PlaneetCATNIP, -2000, 0, []),
+    new Planet(images.PlaneetA, 0, 0, [
+      {
+        html: 'What? A kitten?<br><br>No haven’t seen any. But then again, I constantly lose everything on this planet...',
+        receives: ['kitten1', 'kitten2', 'kitten3', 'kitten4', 'kitten5']
+      }, {
+        requires: ['kitten1', 'kitten2', 'kitten3', 'kitten4', 'kitten5'],
+        html: 'YOU DID IT'
+      }
+    ]),
+    new Planet(images.PlaneetMELK, 2000, 0, []),
+    new Planet(images.PlaneetPLAKBAND, 4000, 0, [])
   ]
 
   const inventory = {
     items: [],
-    add(item) {
-      this.items.push(item)
+    add(items = []) {
+      for (const item of items) {
+        this.items.push(item)
 
-      // add item's image to UI
+        // add item's image to UI
+      }
     },
-    use(item) {
-      const index = this.items.indexOf(item)
+    use(items = []) {
+      const indices = []
 
-      if (index > -1) {
+      for (const item of items) {
+        indices.unshift(this.items.indexOf(item))
+
+        if (indices[0] === -1) {
+          return false
+        }
+      }
+
+      for (const index of indices) {
         this.items.splice(index, 1)
 
         // remove item's image from UI
-
-        return true
       }
+
+      return true
     }
   }
 

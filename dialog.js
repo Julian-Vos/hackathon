@@ -12,7 +12,7 @@ function showDialog() {
     }
 }
 
-function notification() {
+function notificationFunc() {
     var notification = document.getElementById("notification");
     if (notification.classList.contains('active')) {
         toggleDialog();
