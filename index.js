@@ -230,10 +230,18 @@
         let warning = ''
 
         if (dialog.hasOwnProperty('receives')) {
-          if (dialog.receives.some((item) => item.startsWith('kitten')) && kittens === player.boxes) {
-            warning = "<br><br><i>(This kitten won't fit in your spaceship. Maybe we can expand?)</i>"
+          if (Array.isArray(dialog.receives)) {
+            if (dialog.receives.some((item) => item.startsWith('kitten')) && kittens === player.boxes) {
+              warning = "<br><br><i>(This kitten won't fit in your spaceship. Maybe we can expand?)</i>"
+
+              sounds.no_space_for_kitten.play()
+            } else {
+              inventory.add(dialog.receives)
+
+              delete dialog.receives
+            }
           } else {
-            inventory.add(dialog.receives)
+            dialog.receives()
 
             delete dialog.receives
           }
@@ -251,15 +259,17 @@
         if (!this.visited) {
           this.visited = true
 
-          notification.classList.add('active')
           notification.onclick = this.dialogFunc
+          notification.classList.add('active')
+
+          sounds.notification.play()
         }
       } else {
         if (this.visited) {
           this.visited = false
 
-          notification.classList.remove('active')
           notification.removeAttribute('onclick')
+          notification.classList.remove('active')
         }
       }
     }
@@ -314,7 +324,12 @@
         receives: ['kitten3']
       }, {
         requires: ['box'],
-        html: 'On your way now!'
+        html: 'On your way now!',
+        receives() {
+          player.boxes++
+
+          sounds.ship_upgrade.play()
+        }
       }
     ]),
     new Planet(images.PlaneetCATNIP, -2000, 0, [
@@ -338,6 +353,8 @@
     update() {
       if (Math.abs(player.x - this.x) <= Box.halfWidth && Math.abs(player.y - this.y) <= Box.halfHeight) {
         player.boxes++
+
+        sounds.ship_upgrade.play()
 
         if (boxes.length === 3) {
           inventory.add(['flowers'])
@@ -367,7 +384,11 @@
       for (const item of items) {
         if (item.startsWith('kitten')) {
           kittenSpan.textContent = ++kittens
+
+          sounds.kitten_collected.play()
         } else if (item !== 'worker') {
+          sounds.item_received.play()
+
           // add item's image to UI
         }
 
