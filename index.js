@@ -1,6 +1,7 @@
 (() => {
   'use strict'
 
+  const kittenSpan = document.getElementById('kitten-span')
   const notification = document.getElementById('notification')
   const dialogSpan = document.querySelector('.dialog-right > span')
 
@@ -203,10 +204,23 @@
       this.dialog = -1
       this.dialogFunc = () => {
         if (this.dialog + 1 < this.dialogs.length && inventory.use(this.dialogs[this.dialog + 1].requires)) {
-          inventory.add(this.dialogs[++this.dialog].receives)
+          this.dialog++
         }
 
-        dialogSpan.innerHTML = `"${this.dialogs[this.dialog].html}"`
+        const dialog = this.dialogs[this.dialog]
+        let warning = ''
+
+        if (dialog.hasOwnProperty('receives')) {
+          if (kittens === player.boxes && dialog.receives.some((item) => item.startsWith('kitten'))) {
+            warning = "<br><br><i>(This kitten won't fit in your spaceship. Maybe we can expand?)</i>"
+          } else {
+            inventory.add(dialog.receives)
+
+            delete dialog.receives
+          }
+        }
+
+        dialogSpan.innerHTML = `"${dialog.html}"${warning}`
         dialogSpan.style.setProperty('--n', dialogSpan.textContent.length)
 
         notificationFunc()
@@ -286,7 +300,9 @@
 
     update() {
       if (Math.abs(player.x - this.x) <= Box.halfWidth && Math.abs(player.y - this.y) <= Box.halfHeight) {
-        player.boxes++
+        if (++player.boxes === 5) {
+          inventory.add(['kitten5'])
+        }
 
         return true
       }
@@ -307,11 +323,15 @@
 
   const inventory = {
     items: [],
-    add(items = []) {
+    add(items) {
       for (const item of items) {
-        this.items.push(item)
+        if (item.startsWith('kitten')) {
+          kittenSpan.textContent = ++kittens
+        } else {
+          // add item's image to UI
+        }
 
-        // add item's image to UI
+        this.items.push(item)
       }
     },
     use(items = []) {
@@ -326,15 +346,18 @@
       }
 
       for (const index of indices) {
-        this.items.splice(index, 1)
+        if (!item.startsWith('kitten')) {
+          // remove item's image from UI
+        }
 
-        // remove item's image from UI
+        this.items.splice(index, 1)
       }
 
       return true
     }
   }
 
+  let kittens = 0
   let previousTime = performance.now()
 
   function loop(currentTime) {
