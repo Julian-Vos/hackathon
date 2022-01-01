@@ -14,6 +14,12 @@
 
   const images = Object.fromEntries([
     'earth',
+    'Ruimteschip1',
+    'Ruimteschip2',
+    'Ruimteschip3',
+    'Ruimteschip4',
+    'Ruimteschip5',
+    'Ruimteschip6',
     'Sterren1',
     'Sterren2'
   ].map((filename) => {
@@ -94,6 +100,7 @@
     speed: 0,
     x: 0,
     y: 0,
+    boxes: 0,
     update(delta) {
       this.direction += (actions.left - actions.right) * 0.5 * Math.PI * delta
 
@@ -105,12 +112,13 @@
     },
     draw() {
       context.translate(this.x, this.y)
-      context.rotate(-this.direction)
+      context.rotate(0.5 * Math.PI - this.direction)
 
-      context.fillStyle = 'orange'
-      context.fillRect(-100, -50, 200, 100)
+      const image = images[`Ruimteschip${this.boxes + 1}`]
 
-      context.rotate(this.direction)
+      context.drawImage(image, -image.width / 2, -image.height / 2)
+
+      context.rotate(this.direction - 0.5 * Math.PI)
       context.translate(-this.x, -this.y)
     }
   }
