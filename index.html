@@ -10,8 +10,11 @@
     <script src=dialog.js defer></script>
   </head>
   <body>
+
+    <div id="welcome-container" class="welcome-container" style="width: 100vw; height: 100vh; display: none; background-color: black;"></div>
+
     <div id="game-container">
-      <canvas style="background-color: lightslategrey;"></canvas>
+      <canvas></canvas>
 
       <div id="user-interface">
         <div class=top-container>
@@ -19,22 +22,7 @@
             <div class="kitten-icon" style="max-width: 200px; max-height: 200px; position: relative;">
               <img src="assets/icons/kitten-count-icon.svg" alt="'(o x o)'">
             </div>
-            <h3 class="kitten-count" id="kitten-count">2/5</h3>
-
-            <!-- OPTIONS 
-            <div style="max-width: 200px; max-height: 200px;">
-              <img src="assets/icons/cat-face-light-svgrepo-com.svg" alt="'(o x o)'">
-            </div>
-            <div style="max-width: 200px; max-height: 200px;">
-              <img src="assets/icons/cat-svgrepo-com.svg" alt="'(o x o)'">
-            </div>
-            <div style="max-width: 200px; max-height: 200px;">
-              <img src="assets/icons/cat.png" alt="'(o x o)'">
-            </div>
-            <div style="max-width: 200px; max-height: 200px;">
-              <img src="assets/icons/happy.png" alt="'(o x o)'">
-            </div> -->
-            
+            <h3 class="kitten-count" id="kitten-count">2/5</h3>            
           </div>
 
           <div class="notification-container">
@@ -57,15 +45,13 @@
         </div>
       </div>
 
-      <div id="dialog-container" style="display: none;">
+      <div id="dialog-container" class="dialog" style="display: none;">
         <div id="dialog-box">
           <div id="close-btn" class="close-button" onclick="toggleDialog()"></div>
           <div class="dialog-inner inner">
             <div class="dialog-left">
-              <!-- <div class="image-container"> -->
                 <img class="portrait" src="assets/portraits/cat-meme.jpeg" alt="Portrait">
                 <h4 class="name">Cat Meme</h4>
-              <!-- </div> -->
             </div>
             <div class="dialog-right">
               <span class="type" style="--n:110">"What? A kitten? <br><br> No haven’t seen any. But then again, I constantly lose everything on this planet..."</span>

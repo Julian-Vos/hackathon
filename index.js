@@ -194,15 +194,20 @@
     }
 
     update() {
-      if (Math.abs(player.x - this.x) > this.halfWidth || Math.abs(player.y - this.y) > this.halfHeight) {
-        this.visited = false
-      } else if (!this.visited) {
-        this.visited = true
+      var notification = document.getElementById("notification");
 
-        console.log('puss notification')
+      if (Math.abs(player.x - this.x) <= this.halfWidth && Math.abs(player.y - this.y) <= this.halfHeight) {
+        if (!this.visited) {
+          console.log('puss notification')
 
-        var notification = document.getElementById("notification");
-        notification.classList.toggle("active");
+          this.visited = true
+          notification.classList.add("active");
+        }
+      } else {
+        if (this.visited) {
+          this.visited = false
+          notification.classList.remove("active");
+        }
       }
     }
 
