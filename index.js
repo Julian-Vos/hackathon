@@ -220,6 +220,26 @@
     new Planet(images.PlaneetPLAKBAND, 4000, 0)
   ]
 
+  const inventory = {
+    items: [],
+    add(item) {
+      this.items.push(item)
+
+      // add item's image to UI
+    },
+    use(item) {
+      const index = this.items.indexOf(item)
+
+      if (index > -1) {
+        this.items.splice(index, 1)
+
+        // remove item's image from UI
+
+        return true
+      }
+    }
+  }
+
   let previousTime = performance.now()
 
   function loop(currentTime) {
