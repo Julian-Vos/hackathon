@@ -47,15 +47,11 @@
     }
   })
 
-  function toggleEngineSound(wasStatic) {
-    if (wasStatic) {
-      if (actions.forward !== actions.backward) {
-        sounds.Engine.play()
-      }
+  function toggleEngineSound() {
+    if (actions.forward === actions.backward) {
+      sounds.Engine.pause()
     } else {
-      if (actions.forward === actions.backward) {
-        sounds.Engine.pause()
-      }
+      sounds.Engine.play()
     }
   }
 
@@ -69,21 +65,17 @@
 
   document.addEventListener('keydown', (event) => {
     if (!event.repeat && keys.hasOwnProperty(event.key)) {
-      const wasStatic = actions.forward === actions.backward
-
       actions[keys[event.key]] = true
 
-      toggleEngineSound(wasStatic)
+      toggleEngineSound()
     }
   })
 
   document.addEventListener('keyup', (event) => {
     if (!event.repeat && keys.hasOwnProperty(event.key)) {
-      const wasStatic = actions.forward === actions.backward
-
       actions[keys[event.key]] = false
 
-      toggleEngineSound(wasStatic)
+      toggleEngineSound()
     }
   })
 
@@ -92,6 +84,8 @@
       for (const action in actions) {
         actions[action] = false
       }
+
+      sounds.Engine.pause()
     }
   })
 
