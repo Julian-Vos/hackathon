@@ -127,7 +127,7 @@
 
 #welcome-container .start-game {
   transition: opacity 3s ease-out;
-  /* transition-delay: 0.5s; */
+  transition-delay: 0.5s;
   opacity: 0;
   height: 0;
   overflow: hidden;
@@ -150,12 +150,12 @@
   padding: 20px;
   margin: 100px;
   color: var(--white);
-  /* transition: all 0.85s cubic-bezier(0.68, -0.55, 0.265, 1.55); */
+  transition: all 0.85s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 #welcome-container.loaded .start-btn:hover {
   cursor: pointer;
-  /* transition: all 0.85s cubic-bezier(0.68, -0.55, 0.265, 1.55); */
+  transition: all 0.85s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   transform: scaleX(1.5);
 }
 
