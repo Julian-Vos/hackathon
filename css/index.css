@@ -317,7 +317,7 @@ canvas {
 }
 
 .help-icon:hover {
-  background-color: var(--fill-color);
+  background-color: var(--black);
   cursor: pointer;
   transition: background 0.2s ease, padding 0.8s linear;
 }

@@ -3,8 +3,10 @@
 const welcomeContainer = document.getElementById('welcome-container')
 const kittenSpan = document.getElementById('kitten-span')
 const notification = document.getElementById('notification')
+const inventoryContainer = document.getElementById('inventory')
 const dialogImg = document.querySelector('.dialog-left > img')
 const dialogSpan = document.querySelector('.dialog-right > span')
+const itemSlots = document.getElementsByClassName('item-slot')
 
 const canvas = document.getElementsByTagName('canvas')[0]
 const context = canvas.getContext('2d', { alpha: false })
@@ -34,6 +36,7 @@ const images = Object.fromEntries([
   'PortretHOARDER',
   'PortretKATSTRONAUT',
   'PortretMOEDER',
+  'PortretTANK',
   'Ruimteschip1',
   'Ruimteschip2',
   'Ruimteschip3',
@@ -59,7 +62,7 @@ images.Doos.addEventListener('load', () => {
 }, { once: true })
 
 const sounds = Object.fromEntries([
-  ['catstronaut_theme', 1, 'mp3'],
+  ['catstronaut_theme', 0.8, 'mp3'],
   ['criminal_cat_meow', 0.5],
   ['engine', 0],
   ['game_complete_purring', 1, 'mp3'],
@@ -125,7 +128,7 @@ function toggleEngineSound(wasStatic) {
 
       sounds.engine.play()
 
-      player.bubbling = sounds.engine.volume
+      player.bubbling = sounds.engine.volume * 2
     }
   }
 }
@@ -232,8 +235,24 @@ class Planet {
 
     let current = -1
 
+    const fixTapeAfterKitten = () => {
+      if (image === images.PlaneetPLAKBAND && current === 1 && inventory.items.includes('box')) {
+        dialogs[2].receives = () => {
+          player.boxes++
+
+          sounds.ship_upgrade.play()
+
+          inventory.add(['kitten3'])
+        }
+
+        delete dialogs[1].receives
+
+        return true
+      }
+    }
+
     this.dialogFunc = () => {
-      if (current === -1 || !dialogs[current].hasOwnProperty('receives')) {
+      if (current === -1 || !dialogs[current].hasOwnProperty('receives') || fixTapeAfterKitten()) {
         if (current + 1 < dialogs.length && inventory.use(dialogs[current + 1].requires)) {
           current++
         }
@@ -260,15 +279,9 @@ class Planet {
         }
       }
 
+      dialogImg.src = portrait.src
       dialogSpan.innerHTML = `"${dialog.html}"${warning}`
       dialogSpan.style.setProperty('--n', dialogSpan.textContent.length)
-
-      if (portrait === undefined) {
-        dialogImg.style.setProperty('display', 'none')
-      } else {
-        dialogImg.style.removeProperty('display')
-        dialogImg.src = portrait.src
-      }
 
       notificationFunc()
     }
@@ -328,7 +341,7 @@ const planets = [
       html: 'Ah the pump is now operative! Better get some milk for those hungry kittens.',
       receives: ['milk']
     }
-  ]),
+  ], images.PortretTANK),
   new Planet(images.PlaneetEVIL, -4000, 0, [
     {
       html: "You want to get some MILKYWAY MILK™? Yeah I guess I can help you with that, maybe...<br><br>Why don't you fetch me some of that sweet catnip? And then I'll think about it..."
@@ -343,11 +356,11 @@ const planets = [
       html: "Why hello there, a fellow pawrent! Aren't they just the sweetest?<br><br>You what? Lost your kittens? Oh dear...<br><br>I would help you look for them, but I really have to get these babies some milk.",
     }, {
       requires: ['milk'],
-      html: "You got me milk for my babies! You're a great help. Thanks so much! You know how busy it gets...<br><br>Hey, I just counted my babies and I got a +1, he must be yours.<br><br>Come back to tape-planet anytime you want! And of course, the tape is always free.",
+      html: "You got me milk for my babies! You're a great help. Thanks so much! You know how busy it gets...<br><br>Hey, I just counted my babies and I got a +1, he must be yours.<br><br>Come back to tape-planet anytime you want!",
       receives: ['kitten3']
     }, {
       requires: ['box'],
-      html: 'On your way now!',
+      html: 'Number 1 rule on our planet: FTFF - free tape for felines! Your cardboard box is as good as new.',
       receives() {
         player.boxes++
 
@@ -412,7 +425,8 @@ const inventory = {
       } else if (item !== 'worker') {
         sounds.item_received.play()
 
-        // add item's image to UI
+        inventoryContainer.classList.add('wiggle')
+        itemSlots[['milk', 'box', 'catnip', 'flowers'].indexOf(item)].classList.add('show')
       }
 
       this.items.push(item)
@@ -422,16 +436,16 @@ const inventory = {
     const indices = []
 
     for (const item of items) {
-      indices.unshift(this.items.indexOf(item))
+      indices.unshift([this.items.indexOf(item), item])
 
-      if (indices[0] === -1) {
+      if (indices[0][0] === -1) {
         return false
       }
     }
 
-    for (const index of indices) {
-      if (!this.items[index].startsWith('kitten') && this.items[index] !== 'worker') {
-        // remove item's image from UI
+    for (const [index, item] of indices) {
+      if (!item.startsWith('kitten') && item !== 'worker') {
+        itemSlots[['milk', 'box', 'catnip', 'flowers'].indexOf(item)].classList.remove('show')
 
         this.items.splice(index, 1)
       }

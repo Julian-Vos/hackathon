@@ -45,6 +45,9 @@ function toggleInventory() {
     inventory_icon.classList.remove("wiggle");
     if (inventory.style.display === "none") {
         inventory.style.display = "block";
+        setTimeout(function() {
+            sounds.typewriter.play();
+        }, 250);
     } else {
         inventory.style.display = "none";
     }
@@ -54,6 +57,12 @@ function toggleHelp() {
     var help = document.getElementById("help-container");
     if (help.style.display === "none") {
         help.style.display = "block";
+        setTimeout(function() {
+            sounds.typewriter.play();
+        }, 250);
+        setTimeout(function() {
+            sounds.typewriter.play();
+        }, 4490);
     } else {
         help.style.display = "none";
     }
