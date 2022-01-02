@@ -18,6 +18,8 @@ function fitCanvasToViewPort() {
 fitCanvasToViewPort()
 addEventListener('resize', fitCanvasToViewPort)
 
+let assetsToDownload = 0
+
 const images = Object.fromEntries([
   'Doos',
   'PlaneetA',
@@ -40,8 +42,11 @@ const images = Object.fromEntries([
   'Sterren1',
   'Sterren2'
 ].map((filename) => {
+  assetsToDownload++
+
   const image = new Image()
 
+  image.addEventListener('load', startableWhenReady, { once: true })
   image.src = `images/${filename}.png`
 
   return [filename, image]
@@ -50,7 +55,7 @@ const images = Object.fromEntries([
 images.Doos.addEventListener('load', () => {
   Box.halfWidth = images.Doos.width / 2
   Box.halfHeight = images.Doos.height / 2
-})
+}, { once: true })
 
 const sounds = Object.fromEntries([
   ['catstronaut_theme', 1, 'mp3'],
@@ -67,13 +72,15 @@ const sounds = Object.fromEntries([
   ['starting_game', 1],
   ['typewriter', 1]
 ].map(([filename, volume, extension = 'wav']) => {
+  assetsToDownload++
+
   const sound = new Audio(`sounds/${filename}.${extension}`)
 
+  sound.addEventListener('canplaythrough', startableWhenReady, { once: true })
   sound.volume = volume
 
   return [filename, sound]
 }))
-
 
 sounds.engine.addEventListener('timeupdate', () => {
   if (sounds.engine.currentTime > sounds.engine.duration - 0.5) {
@@ -214,7 +221,7 @@ class Planet {
     image.addEventListener('load', () => {
       this.halfWidth = image.width / 2
       this.halfHeight = image.height / 2
-    })
+    }, { once: true })
 
     this.image = image
     this.x = x
@@ -432,7 +439,7 @@ const inventory = {
 }
 
 let kittens = 0
-let previousTime = performance.now()
+let previousTime
 
 function loop(currentTime) {
   player.update((currentTime - previousTime) / 1000)
@@ -470,4 +477,18 @@ function loop(currentTime) {
   requestAnimationFrame(loop)
 }
 
-requestAnimationFrame(loop)
+function startableWhenReady() {
+  if (--assetsToDownload === 0) {
+    document.addEventListener('click', (event) => {
+      previousTime = event.timeStamp
+
+      requestAnimationFrame((currentTime) => {
+        loop(currentTime)
+
+        sounds.starting_game.play()
+        sounds.catstronaut_theme.play()
+        sounds.catstronaut_theme.loop = true
+      })
+    }, { once: true })
+  }
+}
