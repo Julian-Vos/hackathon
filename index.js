@@ -2,6 +2,7 @@
 
 const kittenSpan = document.getElementById('kitten-span')
 const notification = document.getElementById('notification')
+const dialogImg = document.querySelector('.dialog-left > img')
 const dialogSpan = document.querySelector('.dialog-right > span')
 
 const canvas = document.getElementsByTagName('canvas')[0]
@@ -17,6 +18,8 @@ function fitCanvasToViewPort() {
 fitCanvasToViewPort()
 addEventListener('resize', fitCanvasToViewPort)
 
+let assetsToDownload = 0
+
 const images = Object.fromEntries([
   'Doos',
   'PlaneetA',
@@ -25,6 +28,11 @@ const images = Object.fromEntries([
   'PlaneetMELK',
   'PlaneetPLAKBAND',
   'PlaneetWOL',
+  'PortretCATNIP',
+  'PortretCRIMINEEL',
+  'PortretHOARDER',
+  'PortretKATSTRONAUT',
+  'PortretMOEDER',
   'Ruimteschip1',
   'Ruimteschip2',
   'Ruimteschip3',
@@ -34,8 +42,11 @@ const images = Object.fromEntries([
   'Sterren1',
   'Sterren2'
 ].map((filename) => {
+  assetsToDownload++
+
   const image = new Image()
 
+  image.addEventListener('load', startableWhenReady, { once: true })
   image.src = `images/${filename}.png`
 
   return [filename, image]
@@ -44,38 +55,37 @@ const images = Object.fromEntries([
 images.Doos.addEventListener('load', () => {
   Box.halfWidth = images.Doos.width / 2
   Box.halfHeight = images.Doos.height / 2
-})
+}, { once: true })
 
 const sounds = Object.fromEntries([
-  ['catnip_cat_meow', 1],
-  ['catstronaut_meow', 1],
-  ['criminal_cat_meow', 1],
-  ['Engine', 0],
-  ['hoarder_cat_meow', 1],
+  ['catstronaut_theme', 1, 'mp3'],
+  ['engine', 0],
+  ['game_complete_purring', 1, 'mp3'],
   ['item_received', 1],
   ['kitten_collected', 1],
-  ['kitten_found', 1],
   ['menu_close', 1],
   ['menu_open', 1],
-  ['mother_cat_meow', 1],
   ['mouse_over_effect', 1],
   ['no_space_for_kitten', 1],
   ['notification', 1],
   ['ship_upgrade', 1],
   ['starting_game', 1],
   ['typewriter', 1]
-].map(([filename, volume]) => {
-  const sound = new Audio(`sounds/${filename}.wav`)
+].map(([filename, volume, extension = 'wav']) => {
+  assetsToDownload++
 
+  const sound = new Audio(`sounds/${filename}.${extension}`)
+
+  sound.addEventListener('canplaythrough', startableWhenReady, { once: true })
   sound.volume = volume
 
   return [filename, sound]
 }))
 
-sounds.Engine.addEventListener('timeupdate', () => {
-  if (sounds.Engine.currentTime > sounds.Engine.duration - 0.3) {
-    sounds.Engine.currentTime = 0
-    sounds.Engine.play()
+sounds.engine.addEventListener('timeupdate', () => {
+  if (sounds.engine.currentTime > sounds.engine.duration - 0.5) {
+    sounds.engine.currentTime = 0
+    sounds.engine.play()
   }
 })
 
@@ -87,12 +97,12 @@ function toggleEngineSound(wasStatic) {
       clearInterval(engineFadeInterval)
 
       engineFadeInterval = setInterval(() => {
-        if (sounds.Engine.volume > 0.01) {
-          sounds.Engine.volume -= 0.05
+        if (sounds.engine.volume > 0.01) {
+          sounds.engine.volume -= 0.05
         } else {
           clearInterval(engineFadeInterval)
 
-          sounds.Engine.pause()
+          sounds.engine.pause()
 
           player.bubbling = -1
         }
@@ -103,16 +113,16 @@ function toggleEngineSound(wasStatic) {
       clearInterval(engineFadeInterval)
 
       engineFadeInterval = setInterval(() => {
-        if (sounds.Engine.volume < 0.49) {
-          sounds.Engine.volume += 0.05
+        if (sounds.engine.volume < 0.49) {
+          sounds.engine.volume += 0.05
         } else {
           clearInterval(engineFadeInterval)
         }
       }, 100)
 
-      sounds.Engine.play()
+      sounds.engine.play()
 
-      player.bubbling = sounds.Engine.volume
+      player.bubbling = sounds.engine.volume
     }
   }
 }
@@ -189,7 +199,7 @@ const player = {
       for (let i = 0; i < 5; i++) {
         const y = offset + this.bubbling * 160 + i * 30
 
-        context.globalAlpha = Math.max(sounds.Engine.volume * 2 - y / (offset + 280), 0)
+        context.globalAlpha = Math.max(sounds.engine.volume * 2 - y / (offset + 280), 0)
         context.beginPath()
         context.arc(0, y, 10, 0, 2 * Math.PI)
         context.stroke()
@@ -207,25 +217,26 @@ const player = {
 }
 
 class Planet {
-  constructor(image, x, y, dialogs) {
+  constructor(image, x, y, dialogs, portrait) {
     image.addEventListener('load', () => {
       this.halfWidth = image.width / 2
       this.halfHeight = image.height / 2
-    })
+    }, { once: true })
 
     this.image = image
     this.x = x
     this.y = y
-    this.dialogs = dialogs
-    this.dialog = -1
+
+    let current = -1
+
     this.dialogFunc = () => {
-      if (this.dialog === -1 || !this.dialogs[this.dialog].hasOwnProperty('receives')) {
-        if (this.dialog + 1 < this.dialogs.length && inventory.use(this.dialogs[this.dialog + 1].requires)) {
-          this.dialog++
+      if (current === -1 || !dialogs[current].hasOwnProperty('receives')) {
+        if (current + 1 < dialogs.length && inventory.use(dialogs[current + 1].requires)) {
+          current++
         }
       }
 
-      const dialog = this.dialogs[this.dialog]
+      const dialog = dialogs[current]
       let warning = ''
 
       if (dialog.hasOwnProperty('receives')) {
@@ -249,6 +260,13 @@ class Planet {
       dialogSpan.innerHTML = `"${dialog.html}"${warning}`
       dialogSpan.style.setProperty('--n', dialogSpan.textContent.length)
 
+      if (portrait === undefined) {
+        dialogImg.style.setProperty('display', 'none')
+      } else {
+        dialogImg.style.removeProperty('display')
+        dialogImg.src = portrait.src
+      }
+
       notificationFunc()
     }
   }
@@ -259,7 +277,7 @@ class Planet {
         this.visited = true
 
         notification.onclick = this.dialogFunc
-        notification.classList.add('active')
+        notification.classList.add('active', 'openable')
 
         sounds.notification.play()
       }
@@ -268,7 +286,7 @@ class Planet {
         this.visited = false
 
         notification.removeAttribute('onclick')
-        notification.classList.remove('active')
+        notification.classList.remove('active', 'openable')
       }
     }
   }
@@ -284,9 +302,12 @@ const planets = [
       html: 'Oh no! One, two, three, four... all FIVE of your kittens are missing?!<br><br>Where could those little rascals be hiding?<br><br>Better find them right meow!'
     }, {
       requires: ['kitten1', 'kitten2', 'kitten3', 'kitten4', 'kitten5'],
-      html: 'Alright: one, two, three, four... five! The litter is complete again.<br><br>Purrfect! We did it!'
+      html: 'Alright: one, two, three, four... Five! The litter is complete again.<br><br>Cat-astrophe averted! We did it!',
+      receives() {
+        sounds.game_complete_purring.play()
+      }
     }
-  ]),
+  ], images.PortretKATSTRONAUT),
   new Planet(images.PlaneetWOL, 0, -2000, [
     {
       html: "What? A kitten? No haven't seen any. But then again, I constantly lose everything on this planet...<br><br>I do have this antique box though. What a treasure!",
@@ -295,10 +316,10 @@ const planets = [
       html: "Ah, you're back! Turns out your kitten was here after all. He was asleep in the yarn. Here you go!",
       receives: ['kitten1']
     }
-  ]),
+  ], images.PortretHOARDER),
   new Planet(images.PlaneetMELK, 2000, 0, [
     {
-      html: "MILKYWAY MILK® station. This looks like the perfect place to get some milk! But there's no one to operate the pump..."
+      html: "MILKYWAY MILK™ station. This looks like the purrfect place to get some milk! But there's no one to operate the pump..."
     }, {
       requires: ['worker'],
       html: 'Ah the pump is now operative! Better get some milk for those hungry kittens.',
@@ -307,13 +328,13 @@ const planets = [
   ]),
   new Planet(images.PlaneetEVIL, -4000, 0, [
     {
-      html: "You want to get some MILKYWAY MILK®? Yeah I guess I can help you with that, maybe...<br><br>Why don't you fetch me some of that sweet catnip? And then I'll think about it..."
+      html: "You want to get some MILKYWAY MILK™? Yeah I guess I can help you with that, maybe...<br><br>Why don't you fetch me some of that sweet catnip? And then I'll think about it..."
     }, {
       requires: ['catnip'],
       html: 'YES! Some sweet catnip. Thanks pawl!<br><br>Oh, some milk you said? Alright, the pump is yours.<br><br>Also, is this your kitten? I found her sleeping in my cave. Now keep her close, alright? These are the dark corners of the universe.',
       receives: ['worker', 'kitten2']
     }
-  ]),
+  ], images.PortretCRIMINEEL),
   new Planet(images.PlaneetPLAKBAND, 4000, 0, [
     {
       html: "Why hello there, a fellow pawrent! Aren't they just the sweetest?<br><br>You what? Lost your kittens? Oh dear...<br><br>I would help you look for them, but I really have to get these babies some milk.",
@@ -330,7 +351,7 @@ const planets = [
         sounds.ship_upgrade.play()
       }
     }
-  ]),
+  ], images.PortretMOEDER),
   new Planet(images.PlaneetCATNIP, -2000, 0, [
     {
       html: "Oh finally! You're just on time! I have been trying to get this kitten out of the tree for hours, but she just won't move.<br><br>She is yours? So this is all your fault! You better repay me for my efforts.",
@@ -340,7 +361,7 @@ const planets = [
       html: 'Hey you! Are you here to lose your kitten again?!<br><br>Wha? You got me flowers? Oh... Thank you so much!<br><br>Sorry for being rude before. It just gets so lonely here you know...<br><br>Here, have some herbs. It will make you feel better in stressful times.',
       receives: ['catnip']
     }
-  ])
+  ], images.PortretCATNIP)
 ]
 
 class Box {
@@ -418,7 +439,7 @@ const inventory = {
 }
 
 let kittens = 0
-let previousTime = performance.now()
+let previousTime
 
 function loop(currentTime) {
   player.update((currentTime - previousTime) / 1000)
@@ -456,4 +477,18 @@ function loop(currentTime) {
   requestAnimationFrame(loop)
 }
 
-requestAnimationFrame(loop)
+function startableWhenReady() {
+  if (--assetsToDownload === 0) {
+    document.addEventListener('click', (event) => {
+      previousTime = event.timeStamp
+
+      requestAnimationFrame((currentTime) => {
+        loop(currentTime)
+
+        sounds.starting_game.play()
+        sounds.catstronaut_theme.play()
+        sounds.catstronaut_theme.loop = true
+      })
+    }, { once: true })
+  }
+}

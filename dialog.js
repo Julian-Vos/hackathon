@@ -13,7 +13,7 @@ function hideWelcomeScreen() {
 
 function notificationToggle() {
     var notification = document.getElementById("notification");
-    notification.classList.toggle("active");
+    notification.classList.remove("active");
 }
 
 function showDialog() {
@@ -27,7 +27,7 @@ function showDialog() {
 
 function notificationFunc() {
     var notification = document.getElementById("notification");
-    if (notification.classList.contains('active')) {
+    if (notification.classList.contains('openable')) {
         toggleDialog();
         notificationToggle();
     }

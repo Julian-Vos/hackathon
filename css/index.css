@@ -198,26 +198,6 @@
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @keyframes shake {
   0% { transform: translate(1px, 1px) rotate(0deg); }
   10% { transform: translate(-1px, -2px) rotate(-1deg); }
@@ -335,7 +315,7 @@ canvas {
   position: relative;
 }
 
-.notification-icon.active:hover {
+.notification-icon.openable:hover {
   cursor: pointer;
 }
 
@@ -402,8 +382,7 @@ canvas {
 
 .portrait {
   width: 150px;
-  max-width: 80%;
-  height: 150px;
+  height: 200px;
   object-fit: cover;
   border: 2px solid var(--white);
   border-radius: 4px;
@@ -679,8 +658,8 @@ canvas {
   -webkit-background-clip:padding-box,text;
   background-clip:padding-box,text;
   background-repeat:no-repeat;
-  animation: 
-    b .7s infinite steps(1),   
+  animation:
+    b .7s infinite steps(1),
     t calc(var(--n)*.05s) steps(var(--n)) forwards;
 }
 
