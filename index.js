@@ -49,12 +49,13 @@ images.Doos.addEventListener('load', () => {
 const sounds = Object.fromEntries([
   ['catnip_cat_meow', 1],
   ['catstronaut_meow', 1],
+  ['catstronaut_theme', 1, 'mp3'],
   ['criminal_cat_meow', 1],
   ['Engine', 0],
+  ['game_complete_purring', 1, 'mp3'],
   ['hoarder_cat_meow', 1],
   ['item_received', 1],
   ['kitten_collected', 1],
-  ['kitten_found', 1],
   ['menu_close', 1],
   ['menu_open', 1],
   ['mother_cat_meow', 1],
@@ -64,8 +65,8 @@ const sounds = Object.fromEntries([
   ['ship_upgrade', 1],
   ['starting_game', 1],
   ['typewriter', 1]
-].map(([filename, volume]) => {
-  const sound = new Audio(`sounds/${filename}.wav`)
+].map(([filename, volume, extension = 'wav']) => {
+  const sound = new Audio(`sounds/${filename}.${extension}`)
 
   sound.volume = volume
 
@@ -73,7 +74,7 @@ const sounds = Object.fromEntries([
 }))
 
 sounds.Engine.addEventListener('timeupdate', () => {
-  if (sounds.Engine.currentTime > sounds.Engine.duration - 0.3) {
+  if (sounds.Engine.currentTime > sounds.Engine.duration - 0.5) {
     sounds.Engine.currentTime = 0
     sounds.Engine.play()
   }
@@ -284,7 +285,10 @@ const planets = [
       html: 'Oh no! One, two, three, four... all FIVE of your kittens are missing?!<br><br>Where could those little rascals be hiding?<br><br>Better find them right meow!'
     }, {
       requires: ['kitten1', 'kitten2', 'kitten3', 'kitten4', 'kitten5'],
-      html: 'Alright: one, two, three, four... Five! The litter is complete again.<br><br>Cat-astrophe averted! We did it!'
+      html: 'Alright: one, two, three, four... Five! The litter is complete again.<br><br>Cat-astrophe averted! We did it!',
+      receives() {
+        sounds.game_complete_purring.play()
+      }
     }
   ]),
   new Planet(images.PlaneetWOL, 0, -2000, [
