@@ -284,7 +284,7 @@ const planets = [
       html: 'Oh no! One, two, three, four... all FIVE of your kittens are missing?!<br><br>Where could those little rascals be hiding?<br><br>Better find them right meow!'
     }, {
       requires: ['kitten1', 'kitten2', 'kitten3', 'kitten4', 'kitten5'],
-      html: 'Alright: one, two, three, four... five! The litter is complete again.<br><br>Purrfect! We did it!'
+      html: 'Alright: one, two, three, four... Five! The litter is complete again.<br><br>Cat-astrophe averted! We did it!'
     }
   ]),
   new Planet(images.PlaneetWOL, 0, -2000, [
@@ -298,7 +298,7 @@ const planets = [
   ]),
   new Planet(images.PlaneetMELK, 2000, 0, [
     {
-      html: "MILKYWAY MILK® station. This looks like the perfect place to get some milk! But there's no one to operate the pump..."
+      html: "MILKYWAY MILK™ station. This looks like the purrfect place to get some milk! But there's no one to operate the pump..."
     }, {
       requires: ['worker'],
       html: 'Ah the pump is now operative! Better get some milk for those hungry kittens.',
@@ -307,7 +307,7 @@ const planets = [
   ]),
   new Planet(images.PlaneetEVIL, -4000, 0, [
     {
-      html: "You want to get some MILKYWAY MILK®? Yeah I guess I can help you with that, maybe...<br><br>Why don't you fetch me some of that sweet catnip? And then I'll think about it..."
+      html: "You want to get some MILKYWAY MILK™? Yeah I guess I can help you with that, maybe...<br><br>Why don't you fetch me some of that sweet catnip? And then I'll think about it..."
     }, {
       requires: ['catnip'],
       html: 'YES! Some sweet catnip. Thanks pawl!<br><br>Oh, some milk you said? Alright, the pump is yours.<br><br>Also, is this your kitten? I found her sleeping in my cave. Now keep her close, alright? These are the dark corners of the universe.',
