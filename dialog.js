@@ -1,3 +1,16 @@
+var dots = window.setInterval( function() {
+var wait = document.getElementById("wait");
+if ( wait.innerHTML.length > 2 ) 
+    wait.innerHTML = "";
+else 
+    wait.innerHTML += ".";
+}, 500);
+
+function hideWelcomeScreen() {
+    var welcome = document.getElementById("welcome-container");
+    welcome.classList.add("hide");
+}
+
 function notificationToggle() {
     var notification = document.getElementById("notification");
     notification.classList.remove("active");
@@ -30,19 +43,22 @@ function toggleDialog() {
 }
 
 function toggleInventory() {
-    var dialog = document.getElementById("inventory-container");
-    if (dialog.style.display === "none") {
-        dialog.style.display = "block";
+    var inventory = document.getElementById("inventory-container");
+    var inventory_icon = document.getElementById("inventory");
+
+    inventory_icon.classList.remove("wiggle");
+    if (inventory.style.display === "none") {
+        inventory.style.display = "block";
     } else {
-        dialog.style.display = "none";
+        inventory.style.display = "none";
     }
 }
 
 function toggleHelp() {
-    var dialog = document.getElementById("help-container");
-    if (dialog.style.display === "none") {
-        dialog.style.display = "block";
+    var help = document.getElementById("help-container");
+    if (help.style.display === "none") {
+        help.style.display = "block";
     } else {
-        dialog.style.display = "none";
+        help.style.display = "none";
     }
 }

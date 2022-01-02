@@ -11,7 +11,37 @@
   </head>
   <body>
 
-    <div id="welcome-container" class="welcome-container" style="width: 100vw; height: 100vh; display: none; background-color: black;"></div>
+    <div id="welcome-container" class="welcome-container">
+      <div class=title-container>
+        <div class="title word h1">
+          <span>C</span>
+          <span>A</span>
+          <span>T</span>
+          <span>S</span>
+          <span>T</span>
+          <span>R</span>
+          <span>O</span>
+          <span>N</span>
+          <span>A</span>
+          <span>U</span>
+          <span>T</span>
+        </div>
+      </div>
+      
+      
+      <!-- <h1 class="title">CATSTRONAUT</h1> -->
+      <div class="loading-container">
+        <div class="spinner-container">
+          <span class="grow-pulse spinner"></span>
+        </div>
+        <p>Loading<span id="wait"></span></p>
+      </div>
+      <div class="start-game">
+        <div class="start">
+          <div class="start-btn shrink-border" onclick="hideWelcomeScreen()">LAUNCH</div>
+        </div>
+      </div>
+    </div>
 
     <div id="game-container">
       <canvas></canvas>
@@ -38,7 +68,8 @@
             <div class="help-icon">?</div>
           </div>
 
-          <div class="inventory-container" onclick="toggleInventory()">
+          <!-- Add class 'wiggle' when finding inventory object -->
+          <div id="inventory" class="inventory-container" onclick="toggleInventory()">
             <div class="inventory-icon">
               <img src="assets/icons/inventory-icon.png" alt="Catpack">
             </div>
@@ -53,6 +84,7 @@
                 <img class="portrait" alt="Portrait">
             </div>
             <div class="dialog-right">
+              <h4 class="puss-notification">* Puss Notification *</h4>
               <span class="type"></span>
             </div>
           </div>
@@ -62,12 +94,38 @@
       <div id="inventory-container" style="display: none;">
         <div id="inventory-box">
           <div id="close-btn" class="close-button" onclick="toggleInventory()"></div>
-          <div class="Inventory inner">
+          <div class="inventory-inner">
             <h3>Purrse</h3>
             <span class="type" style="--n:58">These are the things you've collected so far. Nice cat-ch!</span>
-            <p>Kapotte doos</p>
-            <p>Bloemen</p>
-            <p>Catnip</p>
+            <div class="item-container">
+              <div class="item-slots">
+                <!-- Give item-slot the class "show" to display item -->
+                <div class="item-slot item-first">
+                  <img class="item milk-item" style="display: none;" src="assets/items/Melk.png" alt="Portrait">
+                  <span class="tooltip-text" style="visibility: hidden;">
+                    MILKYWAY MILK© || The tastiest milk in the universe. Kittens really love it.
+                  </span>
+                </div>
+                <div class="item-slot item-second">
+                  <img class="item box-item" style="display: none;" src="assets/items/Kapottedoos.png" alt="Portrait">
+                  <span class="tooltip-text" style="visibility: hidden;">
+                    BROKEN CARDBOARD BOX || If only you had some tape to repair it...
+                  </span>
+                </div>
+                <div class="item-slot item-third">
+                  <img class="item catnip-item" style="display: none;" src="assets/items/Catnip.png" alt="Portrait">
+                  <span class="tooltip-text" style="visibility: hidden;">
+                    CATNIP || Adds an extra dimension of "space" to "cats in space".
+                  </span>
+                </div>
+                <div class="item-slot item-fourth">
+                  <img class="item flower-item" style="display: none;" src="assets/items/Bloemen.png" alt="Portrait">
+                  <span class="tooltip-text" style="visibility: hidden;">
+                    FLOWERS || Definitely not as sweet as catnip, but a really sweet gift.
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -81,16 +139,6 @@
           </div>
         </div>
       </div>
-
-
-      <!-- User interface:
-        * Notifications van objecten
-          - Knoppen met acties
-          - Wegklikken
-        * Aantal kittens CHECK
-        * Inventory
-        * Help
-      -->
     </div>
 
   </body>
