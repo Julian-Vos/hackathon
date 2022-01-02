@@ -336,11 +336,11 @@ const planets = [
       html: "Why hello there, a fellow pawrent! Aren't they just the sweetest?<br><br>You what? Lost your kittens? Oh dear...<br><br>I would help you look for them, but I really have to get these babies some milk.",
     }, {
       requires: ['milk'],
-      html: "You got me milk for my babies! You're a great help. Thanks so much! You know how busy it gets...<br><br>Hey, I just counted my babies and I got a +1, he must be yours.<br><br>Come back to tape-planet anytime you want! And of course, the tape is always free.",
+      html: "You got me milk for my babies! You're a great help. Thanks so much! You know how busy it gets...<br><br>Hey, I just counted my babies and I got a +1, he must be yours.<br><br>Come back to tape-planet anytime you want!",
       receives: ['kitten3']
     }, {
       requires: ['box'],
-      html: 'On your way now!',
+      html: 'Number 1 rule on our planet: FTFF - free tape for felines! Grab some, just in case.',
       receives() {
         player.boxes++
 
