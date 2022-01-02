@@ -190,7 +190,7 @@ canvas {
 
 .portrait {
   width: 150px;
-  height: 150px;
+  height: 200px;
   object-fit: cover;
   border: 2px solid var(--white);
   border-radius: 4px;
@@ -295,8 +295,8 @@ canvas {
   -webkit-background-clip:padding-box,text;
   background-clip:padding-box,text;
   background-repeat:no-repeat;
-  animation: 
-    b .7s infinite steps(1),   
+  animation:
+    b .7s infinite steps(1),
     t calc(var(--n)*.05s) steps(var(--n)) forwards;
 }
 @keyframes t{

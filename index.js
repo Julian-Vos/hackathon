@@ -2,6 +2,7 @@
 
 const kittenSpan = document.getElementById('kitten-span')
 const notification = document.getElementById('notification')
+const dialogImg = document.querySelector('.dialog-left > img')
 const dialogSpan = document.querySelector('.dialog-right > span')
 
 const canvas = document.getElementsByTagName('canvas')[0]
@@ -25,6 +26,11 @@ const images = Object.fromEntries([
   'PlaneetMELK',
   'PlaneetPLAKBAND',
   'PlaneetWOL',
+  'PortretCATNIP',
+  'PortretCRIMINEEL',
+  'PortretHOARDER',
+  'PortretKATSTRONAUT',
+  'PortretMOEDER',
   'Ruimteschip1',
   'Ruimteschip2',
   'Ruimteschip3',
@@ -47,18 +53,13 @@ images.Doos.addEventListener('load', () => {
 })
 
 const sounds = Object.fromEntries([
-  ['catnip_cat_meow', 1],
-  ['catstronaut_meow', 1],
   ['catstronaut_theme', 1, 'mp3'],
-  ['criminal_cat_meow', 1],
   ['Engine', 0],
   ['game_complete_purring', 1, 'mp3'],
-  ['hoarder_cat_meow', 1],
   ['item_received', 1],
   ['kitten_collected', 1],
   ['menu_close', 1],
   ['menu_open', 1],
-  ['mother_cat_meow', 1],
   ['mouse_over_effect', 1],
   ['no_space_for_kitten', 1],
   ['notification', 1],
@@ -208,7 +209,7 @@ const player = {
 }
 
 class Planet {
-  constructor(image, x, y, dialogs) {
+  constructor(image, x, y, dialogs, portrait) {
     image.addEventListener('load', () => {
       this.halfWidth = image.width / 2
       this.halfHeight = image.height / 2
@@ -217,16 +218,17 @@ class Planet {
     this.image = image
     this.x = x
     this.y = y
-    this.dialogs = dialogs
-    this.dialog = -1
+
+    let current = -1
+
     this.dialogFunc = () => {
-      if (this.dialog === -1 || !this.dialogs[this.dialog].hasOwnProperty('receives')) {
-        if (this.dialog + 1 < this.dialogs.length && inventory.use(this.dialogs[this.dialog + 1].requires)) {
-          this.dialog++
+      if (current === -1 || !dialogs[current].hasOwnProperty('receives')) {
+        if (current + 1 < dialogs.length && inventory.use(dialogs[current + 1].requires)) {
+          current++
         }
       }
 
-      const dialog = this.dialogs[this.dialog]
+      const dialog = dialogs[current]
       let warning = ''
 
       if (dialog.hasOwnProperty('receives')) {
@@ -249,6 +251,13 @@ class Planet {
 
       dialogSpan.innerHTML = `"${dialog.html}"${warning}`
       dialogSpan.style.setProperty('--n', dialogSpan.textContent.length)
+
+      if (portrait === undefined) {
+        dialogImg.style.setProperty('display', 'none')
+      } else {
+        dialogImg.style.removeProperty('display')
+        dialogImg.src = portrait.src
+      }
 
       notificationFunc()
     }
@@ -290,7 +299,7 @@ const planets = [
         sounds.game_complete_purring.play()
       }
     }
-  ]),
+  ], images.PortretKATSTRONAUT),
   new Planet(images.PlaneetWOL, 0, -2000, [
     {
       html: "What? A kitten? No haven't seen any. But then again, I constantly lose everything on this planet...<br><br>I do have this antique box though. What a treasure!",
@@ -299,7 +308,7 @@ const planets = [
       html: "Ah, you're back! Turns out your kitten was here after all. He was asleep in the yarn. Here you go!",
       receives: ['kitten1']
     }
-  ]),
+  ], images.PortretHOARDER),
   new Planet(images.PlaneetMELK, 2000, 0, [
     {
       html: "MILKYWAY MILK™ station. This looks like the purrfect place to get some milk! But there's no one to operate the pump..."
@@ -317,7 +326,7 @@ const planets = [
       html: 'YES! Some sweet catnip. Thanks pawl!<br><br>Oh, some milk you said? Alright, the pump is yours.<br><br>Also, is this your kitten? I found her sleeping in my cave. Now keep her close, alright? These are the dark corners of the universe.',
       receives: ['worker', 'kitten2']
     }
-  ]),
+  ], images.PortretCRIMINEEL),
   new Planet(images.PlaneetPLAKBAND, 4000, 0, [
     {
       html: "Why hello there, a fellow pawrent! Aren't they just the sweetest?<br><br>You what? Lost your kittens? Oh dear...<br><br>I would help you look for them, but I really have to get these babies some milk.",
@@ -334,7 +343,7 @@ const planets = [
         sounds.ship_upgrade.play()
       }
     }
-  ]),
+  ], images.PortretMOEDER),
   new Planet(images.PlaneetCATNIP, -2000, 0, [
     {
       html: "Oh finally! You're just on time! I have been trying to get this kitten out of the tree for hours, but she just won't move.<br><br>She is yours? So this is all your fault! You better repay me for my efforts.",
@@ -344,7 +353,7 @@ const planets = [
       html: 'Hey you! Are you here to lose your kitten again?!<br><br>Wha? You got me flowers? Oh... Thank you so much!<br><br>Sorry for being rude before. It just gets so lonely here you know...<br><br>Here, have some herbs. It will make you feel better in stressful times.',
       receives: ['catnip']
     }
-  ])
+  ], images.PortretCATNIP)
 ]
 
 class Box {
