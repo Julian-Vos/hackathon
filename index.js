@@ -1,5 +1,6 @@
 'use strict'
 
+const welcomeContainer = document.getElementById('welcome-container')
 const kittenSpan = document.getElementById('kitten-span')
 const notification = document.getElementById('notification')
 const dialogImg = document.querySelector('.dialog-left > img')
@@ -276,7 +277,7 @@ class Planet {
       if (!this.visited) {
         this.visited = true
 
-        notification.onclick = this.dialogFunc
+        notification.addEventListener('click', this.dialogFunc)
         notification.classList.add('active', 'openable')
 
         sounds.notification.play()
@@ -285,7 +286,7 @@ class Planet {
       if (this.visited) {
         this.visited = false
 
-        notification.removeAttribute('onclick')
+        notification.removeEventListener('click', this.dialogFunc)
         notification.classList.remove('active', 'openable')
       }
     }
@@ -479,7 +480,11 @@ function loop(currentTime) {
 
 function startableWhenReady() {
   if (--assetsToDownload === 0) {
-    document.addEventListener('click', (event) => {
+    welcomeContainer.classList.add('loaded')
+
+    document.getElementsByClassName('start-btn')[0].addEventListener('click', (event) => {
+      welcomeContainer.classList.add('hide')
+
       previousTime = event.timeStamp
 
       requestAnimationFrame((currentTime) => {
