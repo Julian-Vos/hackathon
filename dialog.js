@@ -11,15 +11,6 @@ function notificationToggle() {
     notification.classList.remove("active");
 }
 
-function showDialog() {
-    var dialog = document.getElementById("dialog-container");
-    if (dialog.style.display === "none") {
-        dialog.style.display = "block";
-    } else {
-        dialog.style.display = "none";
-    }
-}
-
 function notificationFunc() {
     var notification = document.getElementById("notification");
     if (notification.classList.contains('openable')) {
@@ -32,8 +23,18 @@ function toggleDialog() {
     var dialog = document.getElementById("dialog-container");
     if (dialog.style.display === "none") {
         dialog.style.display = "block";
+        sounds.menu_open.play();
+        
+        setTimeout(function() {
+            sounds.typewriter.play();
+        }, 250);
+        setTimeout(function() {
+            sounds.typewriter.play();
+        }, 4490);
+
     } else {
         dialog.style.display = "none";
+        sounds.menu_close.play();
     }
 }
 
@@ -44,6 +45,9 @@ function toggleInventory() {
     inventory_icon.classList.remove("wiggle");
     if (inventory.style.display === "none") {
         inventory.style.display = "block";
+        setTimeout(function() {
+            sounds.typewriter.play();
+        }, 250);
     } else {
         inventory.style.display = "none";
     }
@@ -53,7 +57,25 @@ function toggleHelp() {
     var help = document.getElementById("help-container");
     if (help.style.display === "none") {
         help.style.display = "block";
+        setTimeout(function() {
+            sounds.typewriter.play();
+        }, 250);
+        setTimeout(function() {
+            sounds.typewriter.play();
+        }, 4490);
     } else {
         help.style.display = "none";
     }
+}
+
+function onMouseOver() {
+    sounds.mouse_over_effect_short.play();
+}
+
+function kittenPurr() {
+    sounds.criminal_cat_meow.play();
+}
+
+function gameStartSound() {
+    sounds.starting_game.play();
 }

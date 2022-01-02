@@ -63,6 +63,7 @@ images.Doos.addEventListener('load', () => {
 
 const sounds = Object.fromEntries([
   ['catstronaut_theme', 0.8, 'mp3'],
+  ['criminal_cat_meow', 0.5],
   ['engine', 0],
   ['game_complete_purring', 1, 'mp3'],
   ['item_received', 1],
@@ -70,6 +71,7 @@ const sounds = Object.fromEntries([
   ['menu_close', 1],
   ['menu_open', 1],
   ['mouse_over_effect', 1],
+  ['mouse_over_effect_short', 1],
   ['no_space_for_kitten', 1],
   ['notification', 1],
   ['ship_upgrade', 1],
@@ -504,9 +506,11 @@ function startableWhenReady() {
       requestAnimationFrame((currentTime) => {
         loop(currentTime)
 
-        sounds.starting_game.play()
-        sounds.catstronaut_theme.play()
-        sounds.catstronaut_theme.loop = true
+        // sounds.starting_game.play()
+        setTimeout(function() {
+          sounds.catstronaut_theme.play()
+          sounds.catstronaut_theme.loop = true
+        }, 2000);
       })
     }, { once: true })
   }
