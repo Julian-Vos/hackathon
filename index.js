@@ -231,8 +231,24 @@ class Planet {
 
     let current = -1
 
+    const fixTapeAfterKitten = () => {
+      if (image === images.PlaneetPLAKBAND && current === 1 && inventory.items.includes('box')) {
+        dialogs[2].receives = () => {
+          player.boxes++
+
+          sounds.ship_upgrade.play()
+
+          inventory.add(['kitten3'])
+        }
+
+        delete dialogs[1].receives
+
+        return true
+      }
+    }
+
     this.dialogFunc = () => {
-      if (current === -1 || !dialogs[current].hasOwnProperty('receives')) {
+      if (current === -1 || !dialogs[current].hasOwnProperty('receives') || fixTapeAfterKitten()) {
         if (current + 1 < dialogs.length && inventory.use(dialogs[current + 1].requires)) {
           current++
         }
@@ -340,7 +356,7 @@ const planets = [
       receives: ['kitten3']
     }, {
       requires: ['box'],
-      html: 'Number 1 rule on our planet: FTFF - free tape for felines! Grab some, just in case.',
+      html: 'Number 1 rule on our planet: FTFF - free tape for felines! Your cardboard box is as good as new.',
       receives() {
         player.boxes++
 
