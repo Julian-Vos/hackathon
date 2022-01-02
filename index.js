@@ -60,7 +60,7 @@ images.Doos.addEventListener('load', () => {
 }, { once: true })
 
 const sounds = Object.fromEntries([
-  ['catstronaut_theme', 1, 'mp3'],
+  ['catstronaut_theme', 0.8, 'mp3'],
   ['engine', 0],
   ['game_complete_purring', 1, 'mp3'],
   ['item_received', 1],
@@ -124,7 +124,7 @@ function toggleEngineSound(wasStatic) {
 
       sounds.engine.play()
 
-      player.bubbling = sounds.engine.volume
+      player.bubbling = sounds.engine.volume * 2
     }
   }
 }
