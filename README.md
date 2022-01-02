@@ -11,4 +11,8 @@ Catstronaut is a browser game in which you, a Catstronaut, embark on an adventur
 This project was built using:
 
 - JavaScript
+- HTML
 - CSS
+- PhotoShop for the art
+- Logic Pro for the sound design
+
