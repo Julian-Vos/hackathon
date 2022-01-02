@@ -125,7 +125,7 @@ canvas {
   position: relative;
 }
 
-.notification-icon:hover {
+.notification-icon.openable:hover {
   cursor: pointer;
 }
 

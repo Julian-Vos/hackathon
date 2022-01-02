@@ -269,7 +269,7 @@ class Planet {
         this.visited = true
 
         notification.onclick = this.dialogFunc
-        notification.classList.add('active')
+        notification.classList.add('active', 'openable')
 
         sounds.notification.play()
       }
@@ -278,7 +278,7 @@ class Planet {
         this.visited = false
 
         notification.removeAttribute('onclick')
-        notification.classList.remove('active')
+        notification.classList.remove('active', 'openable')
       }
     }
   }
