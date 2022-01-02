@@ -34,6 +34,7 @@ const images = Object.fromEntries([
   'PortretHOARDER',
   'PortretKATSTRONAUT',
   'PortretMOEDER',
+  'PortretTANK',
   'Ruimteschip1',
   'Ruimteschip2',
   'Ruimteschip3',
@@ -258,15 +259,9 @@ class Planet {
         }
       }
 
+      dialogImg.src = portrait.src
       dialogSpan.innerHTML = `"${dialog.html}"${warning}`
       dialogSpan.style.setProperty('--n', dialogSpan.textContent.length)
-
-      if (portrait === undefined) {
-        dialogImg.style.setProperty('display', 'none')
-      } else {
-        dialogImg.style.removeProperty('display')
-        dialogImg.src = portrait.src
-      }
 
       notificationFunc()
     }
@@ -326,7 +321,7 @@ const planets = [
       html: 'Ah the pump is now operative! Better get some milk for those hungry kittens.',
       receives: ['milk']
     }
-  ]),
+  ], images.PortretTANK),
   new Planet(images.PlaneetEVIL, -4000, 0, [
     {
       html: "You want to get some MILKYWAY MILK™? Yeah I guess I can help you with that, maybe...<br><br>Why don't you fetch me some of that sweet catnip? And then I'll think about it..."
