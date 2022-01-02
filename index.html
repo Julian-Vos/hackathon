@@ -28,8 +28,6 @@
         </div>
       </div>
 
-
-      <!-- <h1 class="title">CATSTRONAUT</h1> -->
       <div class="loading-container">
         <div class="spinner-container">
           <span class="grow-pulse spinner"></span>
@@ -38,7 +36,7 @@
       </div>
       <div class="start-game">
         <div class="start">
-          <div class="start-btn shrink-border">LAUNCH</div>
+          <div onclick="gameStartSound()" class="start-btn shrink-border">LAUNCH</div>
         </div>
       </div>
     </div>
@@ -50,13 +48,13 @@
         <div class=top-container>
           <div class="kitten-container">
             <div class="kitten-icon" style="max-width: 200px; max-height: 200px; position: relative;">
-              <img src="assets/icons/kitten-count-icon.svg" alt="'(o x o)'">
+              <img onmouseover="kittenPurr()" src="assets/icons/kitten-count-icon.svg" alt="'(o x o)'">
             </div>
             <h3 class="kitten-count" id="kitten-count"><span id="kitten-span">0</span>/5</h3>
           </div>
 
           <div class="notification-container">
-            <div id="notification" class="notification-icon">
+            <div id="notification" class="notification-icon" onmouseover="onMouseOver()">
               <img class="inactive" src="assets/icons/walkie-talkie-icon.png" alt="messages">
               <img class="active" src="assets/icons/notification-icon.png" alt="messages">
             </div>
@@ -65,12 +63,12 @@
 
         <div class=bottom-container>
           <div class="help-container" onclick="toggleHelp()">
-            <div class="help-icon">?</div>
+            <div onmouseover="onMouseOver()" class="help-icon">?</div>
           </div>
 
           <!-- Add class 'wiggle' when finding inventory object -->
           <div id="inventory" class="inventory-container" onclick="toggleInventory()">
-            <div class="inventory-icon">
+            <div class="inventory-icon" onmouseover="onMouseOver()">
               <img src="assets/icons/inventory-icon.png" alt="Catpack">
             </div>
         </div>
