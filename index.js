@@ -3,8 +3,10 @@
 const welcomeContainer = document.getElementById('welcome-container')
 const kittenSpan = document.getElementById('kitten-span')
 const notification = document.getElementById('notification')
+const inventoryContainer = document.getElementById('inventory')
 const dialogImg = document.querySelector('.dialog-left > img')
 const dialogSpan = document.querySelector('.dialog-right > span')
+const itemSlots = document.getElementsByClassName('item-slot')
 
 const canvas = document.getElementsByTagName('canvas')[0]
 const context = canvas.getContext('2d', { alpha: false })
@@ -421,7 +423,8 @@ const inventory = {
       } else if (item !== 'worker') {
         sounds.item_received.play()
 
-        // add item's image to UI
+        inventoryContainer.classList.add('wiggle')
+        itemSlots[['milk', 'box', 'catnip', 'flowers'].indexOf(item)].classList.add('show')
       }
 
       this.items.push(item)
@@ -431,16 +434,16 @@ const inventory = {
     const indices = []
 
     for (const item of items) {
-      indices.unshift(this.items.indexOf(item))
+      indices.unshift([this.items.indexOf(item), item])
 
-      if (indices[0] === -1) {
+      if (indices[0][0] === -1) {
         return false
       }
     }
 
-    for (const index of indices) {
-      if (!this.items[index].startsWith('kitten') && this.items[index] !== 'worker') {
-        // remove item's image from UI
+    for (const [index, item] of indices) {
+      if (!item.startsWith('kitten') && item !== 'worker') {
+        itemSlots[['milk', 'box', 'catnip', 'flowers'].indexOf(item)].classList.remove('show')
 
         this.items.splice(index, 1)
       }
