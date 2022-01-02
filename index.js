@@ -54,7 +54,7 @@ images.Doos.addEventListener('load', () => {
 
 const sounds = Object.fromEntries([
   ['catstronaut_theme', 1, 'mp3'],
-  ['Engine', 0],
+  ['engine', 0],
   ['game_complete_purring', 1, 'mp3'],
   ['item_received', 1],
   ['kitten_collected', 1],
@@ -74,10 +74,11 @@ const sounds = Object.fromEntries([
   return [filename, sound]
 }))
 
-sounds.Engine.addEventListener('timeupdate', () => {
-  if (sounds.Engine.currentTime > sounds.Engine.duration - 0.5) {
-    sounds.Engine.currentTime = 0
-    sounds.Engine.play()
+
+sounds.engine.addEventListener('timeupdate', () => {
+  if (sounds.engine.currentTime > sounds.engine.duration - 0.5) {
+    sounds.engine.currentTime = 0
+    sounds.engine.play()
   }
 })
 
@@ -89,12 +90,12 @@ function toggleEngineSound(wasStatic) {
       clearInterval(engineFadeInterval)
 
       engineFadeInterval = setInterval(() => {
-        if (sounds.Engine.volume > 0.01) {
-          sounds.Engine.volume -= 0.05
+        if (sounds.engine.volume > 0.01) {
+          sounds.engine.volume -= 0.05
         } else {
           clearInterval(engineFadeInterval)
 
-          sounds.Engine.pause()
+          sounds.engine.pause()
 
           player.bubbling = -1
         }
@@ -105,16 +106,16 @@ function toggleEngineSound(wasStatic) {
       clearInterval(engineFadeInterval)
 
       engineFadeInterval = setInterval(() => {
-        if (sounds.Engine.volume < 0.49) {
-          sounds.Engine.volume += 0.05
+        if (sounds.engine.volume < 0.49) {
+          sounds.engine.volume += 0.05
         } else {
           clearInterval(engineFadeInterval)
         }
       }, 100)
 
-      sounds.Engine.play()
+      sounds.engine.play()
 
-      player.bubbling = sounds.Engine.volume
+      player.bubbling = sounds.engine.volume
     }
   }
 }
@@ -191,7 +192,7 @@ const player = {
       for (let i = 0; i < 5; i++) {
         const y = offset + this.bubbling * 160 + i * 30
 
-        context.globalAlpha = Math.max(sounds.Engine.volume * 2 - y / (offset + 280), 0)
+        context.globalAlpha = Math.max(sounds.engine.volume * 2 - y / (offset + 280), 0)
         context.beginPath()
         context.arc(0, y, 10, 0, 2 * Math.PI)
         context.stroke()
