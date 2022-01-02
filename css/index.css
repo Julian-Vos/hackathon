@@ -8,8 +8,214 @@
 }
 
 #welcome-container {
-  background-image: url("images/Sterren2.png");
+  background-image: url("../images/Sterren1.png");
+  position: absolute;
+  z-index: 100;
+  background-size: 200vh;
+  width: 100vw;
+  height: 100vh;
+  opacity: 1;
+  transition: all 2s linear;
 }
+
+#welcome-container.hide {
+  opacity: 0;
+  transition: all 2s linear;
+}
+
+#welcome-container .title {
+  color: var(--white);
+  text-align: center;
+  margin-top: 20vh;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.title span {
+  font-size: 18px;
+  display: inline-block;
+  animation: move 5s ease-in-out infinite;
+}
+
+@media screen and (min-width: 576px) {
+  .title span {
+    font-size: 32px;
+  }
+}
+@media screen and (min-width: 992px) {
+  .title span {
+    font-size: 48px;
+  }
+}
+
+@keyframes move {
+  0% {
+    transform: translate(0%, 0);
+  }
+  10% {
+    transform: translate(-10%, 0);
+  }
+  50% {
+    text-shadow: 0 25px 50px rgba(200, 200, 200, 0.75);
+  }
+  80% {
+    transform: translate(10%, 0);
+  }
+  90% {
+    transform: translate(-10%, 0);
+  }
+  100% {
+    transform: translate(0%, 0);
+  }
+}
+
+.title span:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.title span:nth-child(3) {
+  animation-delay: 1s;
+}
+
+.title span:nth-child(4) {
+  animation-delay: 1.5s;
+}
+
+.title span:nth-child(5) {
+  animation-delay: 2s;
+}
+
+.title span:nth-child(6) {
+  animation-delay: 2.5s;
+}
+
+.title span:nth-child(7) {
+  animation-delay: 3s;
+}
+
+.title span:nth-child(8) {
+  animation-delay: 3.5s;
+}
+
+.title span:nth-child(9) {
+  animation-delay: 4s;
+}
+
+.title span:nth-child(10) {
+  animation-delay: 4.5s;
+}
+
+.title span:nth-child(11) {
+  animation-delay: 5s;
+}
+
+
+#welcome-container .loading-container {
+  width: 100%;
+  height: calc(100vh - 300px);
+}
+
+#welcome-container .loading-container p {
+  color: var(--white);
+  margin-left: calc(50vw - 60px);
+}
+
+#welcome-container.loaded .loading-container {
+  display: none;
+}
+
+#welcome-container .start-game {
+  transition: opacity 3s ease-out;
+  transition-delay: 0.5s;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+#welcome-container.loaded .start-game {
+  opacity: 1;
+  height: auto;
+}
+
+#welcome-container.loaded .start {
+  text-align: -webkit-center;
+  width: 100%;
+}
+
+#welcome-container.loaded .start-btn {
+  width: fit-content;
+  border: 3px solid white;
+  border-radius: 4px;
+  padding: 20px;
+  margin: 100px;
+  color: var(--white);
+  transition: all 0.85s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+#welcome-container.loaded .start-btn:hover {
+  cursor: pointer;
+  transition: all 0.85s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transform: scaleX(1.5);
+}
+
+.spinner-container {
+  display: block;
+  height: 200px;
+  position: relative;
+  letter-spacing: 0.5px;
+}
+
+.spinner::after {
+  content: '';
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: calc(50% - 20px);
+  left: calc(50% - 20px);
+  border-radius: 50%;
+}
+
+.spinner.grow-pulse::after {
+  background-color: rgba(255, 255, 255, 1.0);
+  animation: grow-pulse 1.5s ease-out infinite;
+}
+
+@keyframes grow-pulse {
+  0% {
+    transform: scale(0.1);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.5;
+  }
+  60% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @keyframes shake {

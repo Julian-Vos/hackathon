@@ -1,3 +1,16 @@
+var dots = window.setInterval( function() {
+var wait = document.getElementById("wait");
+if ( wait.innerHTML.length > 2 ) 
+    wait.innerHTML = "";
+else 
+    wait.innerHTML += ".";
+}, 500);
+
+function hideWelcomeScreen() {
+    var welcome = document.getElementById("welcome-container");
+    welcome.classList.add("hide");
+}
+
 function notificationToggle() {
     var notification = document.getElementById("notification");
     notification.classList.toggle("active");
