@@ -48,13 +48,13 @@
         <div class=top-container>
           <div class="kitten-container">
             <div class="kitten-icon" style="max-width: 200px; max-height: 200px; position: relative;">
-              <img onmouseover="kittenPurr()" src="assets/icons/kitten-count-icon.svg" alt="'(o x o)'">
+              <img onmouseenter="kittenPurr()" src="assets/icons/kitten-count-icon.svg" alt="'(o x o)'">
             </div>
             <h3 class="kitten-count" id="kitten-count"><span id="kitten-span">0</span>/5</h3>
           </div>
 
           <div class="notification-container">
-            <div id="notification" class="notification-icon" onmouseover="onMouseOver()">
+            <div id="notification" class="notification-icon">
               <img class="inactive" src="assets/icons/walkie-talkie-icon.png" alt="messages">
               <img class="active" src="assets/icons/notification-icon.png" alt="messages">
             </div>
@@ -63,12 +63,12 @@
 
         <div class=bottom-container>
           <div class="help-container" onclick="toggleHelp()">
-            <div onmouseover="onMouseOver()" class="help-icon">?</div>
+            <div class="help-icon">?</div>
           </div>
 
           <!-- Add class 'wiggle' when finding inventory object -->
           <div id="inventory" class="inventory-container" onclick="toggleInventory()">
-            <div class="inventory-icon" onmouseover="onMouseOver()">
+            <div class="inventory-icon">
               <img src="assets/icons/inventory-icon.png" alt="Catpack">
             </div>
         </div>
@@ -98,25 +98,25 @@
             <div class="item-container">
               <div class="item-slots">
                 <!-- Give item-slot the class "show" to display item -->
-                <div class="item-slot item-first">
+                <div onmouseenter="onMouseEnter(this)" class="item-slot item-first">
                   <img class="item milk-item" style="display: none;" src="assets/items/Melk.png" alt="Portrait">
                   <span class="tooltip-text" style="visibility: hidden;">
                     MILKYWAY MILK™ || The tastiest milk in the universe. Kittens really love it.
                   </span>
                 </div>
-                <div class="item-slot item-second">
+                <div onmouseenter="onMouseEnter(this)" class="item-slot item-second">
                   <img class="item box-item" style="display: none;" src="assets/items/Kapottedoos.png" alt="Portrait">
                   <span class="tooltip-text" style="visibility: hidden;">
                     BROKEN CARDBOARD BOX || If only you had some tape to repair it...
                   </span>
                 </div>
-                <div class="item-slot item-third">
+                <div onmouseenter="onMouseEnter(this)" class="item-slot item-third">
                   <img class="item catnip-item" style="display: none;" src="assets/items/Catnip.png" alt="Portrait">
                   <span class="tooltip-text" style="visibility: hidden;">
                     CATNIP || Adds an extra dimension of "space" to "cats in space".
                   </span>
                 </div>
-                <div class="item-slot item-fourth">
+                <div onmouseenter="onMouseEnter(this)" class="item-slot item-fourth">
                   <img class="item flower-item" style="display: none;" src="assets/items/Bloemen.png" alt="Portrait">
                   <span class="tooltip-text" style="visibility: hidden;">
                     FLOWERS || Definitely not as sweet as catnip, but a really sweet gift.

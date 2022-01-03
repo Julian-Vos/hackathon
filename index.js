@@ -70,7 +70,6 @@ const sounds = Object.fromEntries([
   ['kitten_collected', 1],
   ['menu_close', 1],
   ['menu_open', 1],
-  ['mouse_over_effect', 1],
   ['mouse_over_effect_short', 1],
   ['no_space_for_kitten', 1],
   ['notification', 1],
@@ -503,15 +502,12 @@ function startableWhenReady() {
 
       previousTime = event.timeStamp
 
-      requestAnimationFrame((currentTime) => {
-        loop(currentTime)
+      requestAnimationFrame(loop)
 
-        // sounds.starting_game.play()
-        setTimeout(function() {
-          sounds.catstronaut_theme.play()
-          sounds.catstronaut_theme.loop = true
-        }, 2000);
-      })
+      setTimeout(() => {
+        sounds.catstronaut_theme.loop = true
+        sounds.catstronaut_theme.play()
+      }, 2000)
     }, { once: true })
   }
 }

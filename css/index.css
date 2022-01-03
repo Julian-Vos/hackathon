@@ -563,7 +563,7 @@ canvas {
   margin-right: auto;
 }
 
-.item-slot:hover {
+.item-slot.show:hover {
   background-color: black;
   transition: 5ms;
 }
@@ -586,7 +586,7 @@ canvas {
 
 .item-slot.show .item {
   display: block !important;
-} 
+}
 
 .item-slot.show .tooltip-text {
   visibility: visible !important;

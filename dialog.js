@@ -24,7 +24,7 @@ function toggleDialog() {
     if (dialog.style.display === "none") {
         dialog.style.display = "block";
         sounds.menu_open.play();
-        
+
         setTimeout(function() {
             sounds.typewriter.play();
         }, 250);
@@ -45,11 +45,14 @@ function toggleInventory() {
     inventory_icon.classList.remove("wiggle");
     if (inventory.style.display === "none") {
         inventory.style.display = "block";
+        sounds.menu_open.play();
+
         setTimeout(function() {
             sounds.typewriter.play();
         }, 250);
     } else {
         inventory.style.display = "none";
+        sounds.menu_close.play();
     }
 }
 
@@ -57,6 +60,8 @@ function toggleHelp() {
     var help = document.getElementById("help-container");
     if (help.style.display === "none") {
         help.style.display = "block";
+        sounds.menu_open.play();
+
         setTimeout(function() {
             sounds.typewriter.play();
         }, 250);
@@ -65,11 +70,14 @@ function toggleHelp() {
         }, 4490);
     } else {
         help.style.display = "none";
+        sounds.menu_close.play();
     }
 }
 
-function onMouseOver() {
-    sounds.mouse_over_effect_short.play();
+function onMouseEnter(element) {
+    if (element.classList.contains('show')) { // reuse for next button
+        sounds.mouse_over_effect_short.play();
+    }
 }
 
 function kittenPurr() {
