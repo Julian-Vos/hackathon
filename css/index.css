@@ -282,6 +282,9 @@ canvas {
 .kitten-container .kitten-icon {
   position: relative;
   display: flex;
+}
+
+.kitten-container .kitten-icon img {
   width: 50px;
 }
 
