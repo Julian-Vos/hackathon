@@ -177,7 +177,7 @@ const player = {
   direction: 0.5 * Math.PI,
   speed: 0,
   x: 0,
-  y: 0,
+  y: 350,
   bubbling: -1,
   boxes: 0,
   update(delta) {
@@ -329,7 +329,7 @@ class Planet {
 }
 
 const planets = [
-  new Planet(images.PlaneetA, 0, 0, [
+  new Planet(images.PlaneetA, 0, 1000, [
     {
       html: 'Oh no! One, two, three, four... all FIVE of my kittens are missing?!<br><br>Where could those little rascals be hiding?<br><br>Better find them right meow!'
     }, {
@@ -340,7 +340,7 @@ const planets = [
       }
     }
   ], images.PortretKATSTRONAUT),
-  new Planet(images.PlaneetWOL, 0, -2000, [
+  new Planet(images.PlaneetWOL, 5500, -2000, [
     {
       html: "What? A kitten? No haven't seen any. But then again, I constantly lose everything on this planet...<br><br>I do have this antique box though. What a treasure!",
       receives: ['box']
@@ -349,7 +349,7 @@ const planets = [
       receives: ['kitten1']
     }
   ], images.PortretHOARDER),
-  new Planet(images.PlaneetMELK, 2000, 0, [
+  new Planet(images.PlaneetMELK, -3500, -2500, [
     {
       html: "MILKYWAY MILK™ station. This looks like the purrfect place to get some milk! But there's no one to operate the pump..."
     }, {
@@ -358,7 +358,7 @@ const planets = [
       receives: ['milk']
     }
   ], images.PortretTANK),
-  new Planet(images.PlaneetEVIL, -4000, 0, [
+  new Planet(images.PlaneetEVIL, -6000, 3500, [
     {
       html: "You want to get some MILKYWAY MILK™? Yeah I guess I can help you with that, maybe...<br><br>Why don't you fetch me some of that sweet catnip? And then I'll think about it..."
     }, {
@@ -367,7 +367,7 @@ const planets = [
       receives: ['worker', 'kitten2']
     }
   ], images.PortretCRIMINEEL),
-  new Planet(images.PlaneetPLAKBAND, 4000, 0, [
+  new Planet(images.PlaneetPLAKBAND, 3500, 3000, [
     {
       html: "Why hello there, a fellow pawrent! Aren't they just the sweetest?<br><br>You what? Lost your kittens? Oh dear...<br><br>I would help you look for them, but I really have to get these babies some milk.",
     }, {
@@ -384,7 +384,7 @@ const planets = [
       }
     }
   ], images.PortretMOEDER),
-  new Planet(images.PlaneetCATNIP, -2000, 0, [
+  new Planet(images.PlaneetCATNIP, 500, -3000, [
     {
       html: "Oh finally! You're just on time! I have been trying to get this kitten out of the tree for hours, but she just won't move.<br><br>She is yours? So this is all your fault! You better repay me for my efforts.",
       receives: ['kitten4']
@@ -424,10 +424,10 @@ class Box {
 }
 
 const boxes = [
-  new Box(0, 1000),
-  new Box(0, 1500),
-  new Box(0, 2000),
-  new Box(0, 2500)
+  new Box(-6000, -3500),
+  new Box(2500, -1000),
+  new Box(-2500, 3000),
+  new Box(6500, 4000)
 ]
 
 const inventory = {
