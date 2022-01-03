@@ -8,6 +8,7 @@
 }
 
 #welcome-container {
+  background-color: #000522;
   background-image: url("../images/Sterren1.png");
   position: absolute;
   z-index: 100;
@@ -15,7 +16,6 @@
   width: 100vw;
   height: 100vh;
   opacity: 1;
-  transition: all 2s linear;
 }
 
 #welcome-container.hide {
