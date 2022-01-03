@@ -139,7 +139,6 @@
 }
 
 #welcome-container.loaded .start {
-  text-align: -webkit-center;
   width: 100%;
 }
 
@@ -148,7 +147,7 @@
   border: 3px solid white;
   border-radius: 4px;
   padding: 20px;
-  margin: 100px;
+  margin: 100px auto;
   color: var(--white);
   transition: all 0.85s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
