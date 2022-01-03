@@ -13,10 +13,18 @@ function notificationToggle() {
 
 function notificationFunc() {
     var notification = document.getElementById("notification");
-    if (notification.classList.contains('openable')) {
-        toggleDialog();
+    if (notification.classList.contains("openable")) {
         notificationToggle();
+        toggleDialog();
     }
+}
+
+function reopenDialog() {
+    var notification = document.getElementById("notification");
+    toggleDialog();
+    setTimeout(function() {
+        notification.dispatchEvent(new Event("click"));
+    }, 0);
 }
 
 function toggleDialog() {
@@ -75,7 +83,7 @@ function toggleHelp() {
 }
 
 function onMouseEnter(element) {
-    if (element.classList.contains('show')) { // reuse for next button
+    if (element.classList.contains("show")) {
         sounds.mouse_over_effect_short.play();
     }
 }

@@ -6,6 +6,7 @@ const notification = document.getElementById('notification')
 const inventoryContainer = document.getElementById('inventory')
 const dialogImg = document.querySelector('.dialog-left > img')
 const dialogSpan = document.querySelector('.dialog-right > span')
+const dialogNext = document.querySelector('.dialog-right > div')
 const itemSlots = document.getElementsByClassName('item-slot')
 
 const canvas = document.getElementsByTagName('canvas')[0]
@@ -234,8 +235,12 @@ class Planet {
 
     let current = -1
 
+    const hasBoxForTape = () => {
+      return image === images.PlaneetPLAKBAND && current === 1 && inventory.items.includes('box')
+    }
+
     const fixTapeAfterKitten = () => {
-      if (image === images.PlaneetPLAKBAND && current === 1 && inventory.items.includes('box')) {
+      if (hasBoxForTape()) {
         dialogs[2].receives = () => {
           player.boxes++
 
@@ -250,11 +255,22 @@ class Planet {
       }
     }
 
+    const showNextButton = () => {
+      return (
+        (!dialogs[current].hasOwnProperty('receives') || hasBoxForTape())
+        && current + 1 < dialogs.length
+        && dialogs[current + 1].hasOwnProperty('requires')
+        && dialogs[current + 1].requires.every((item) => inventory.items.includes(item))
+      )
+    }
+
     this.dialogFunc = () => {
-      if (current === -1 || !dialogs[current].hasOwnProperty('receives') || fixTapeAfterKitten()) {
-        if (current + 1 < dialogs.length && inventory.use(dialogs[current + 1].requires)) {
-          current++
-        }
+      if (
+        (current === -1 || !dialogs[current].hasOwnProperty('receives') || fixTapeAfterKitten())
+        && current + 1 < dialogs.length
+        && inventory.use(dialogs[current + 1].requires)
+      ) {
+        current++
       }
 
       const dialog = dialogs[current]
@@ -281,6 +297,7 @@ class Planet {
       dialogImg.src = portrait.src
       dialogSpan.innerHTML = `"${dialog.html}"${warning}`
       dialogSpan.style.setProperty('--n', dialogSpan.textContent.length)
+      dialogNext.classList.toggle('show', showNextButton())
 
       notificationFunc()
     }

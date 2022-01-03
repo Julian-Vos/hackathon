@@ -309,6 +309,7 @@ canvas {
   bottom: 16px;
 }
 
+.next-button,
 .help-icon {
   padding: 12px 10px 10px 12px;
   border: 3px solid var(--white);
@@ -317,6 +318,7 @@ canvas {
   color: var(--white);
 }
 
+.next-button:hover,
 .help-icon:hover {
   background-color: var(--black);
   cursor: pointer;
@@ -406,6 +408,15 @@ canvas {
   object-fit: cover;
   border: 2px solid var(--white);
   border-radius: 4px;
+}
+
+.next-button {
+  margin: 28px 0 0 auto;
+  width: fit-content;
+}
+
+.next-button.show {
+  display: block !important;
 }
 
 .inventory-container.wiggle {
