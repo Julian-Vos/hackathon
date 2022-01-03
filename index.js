@@ -63,8 +63,8 @@ images.Doos.addEventListener('load', () => {
 }, { once: true })
 
 const sounds = Object.fromEntries([
-  ['catstronaut_theme', 0.6, 'mp3'],
-  ['criminal_cat_meow', 0.7],
+  ['catstronaut_theme', 0.5, 'mp3'],
+  ['criminal_cat_meow', 1],
   ['engine', 0],
   ['game_complete_purring', 1, 'mp3'],
   ['item_received', 1],
@@ -73,9 +73,9 @@ const sounds = Object.fromEntries([
   ['menu_open', 1],
   ['mouse_over_effect_short', 1],
   ['no_space_for_kitten', 1],
-  ['notification', 0.8],
+  ['notification', 0.75],
   ['ship_upgrade', 1],
-  ['starting_game', 0.9],
+  ['starting_game', 0.75],
   ['typewriter', 1]
 ].map(([filename, volume, extension = 'wav']) => {
   assetsToDownload++
@@ -331,7 +331,7 @@ class Planet {
 const planets = [
   new Planet(images.PlaneetA, 0, 0, [
     {
-      html: 'Oh no! One, two, three, four... all FIVE of your kittens are missing?!<br><br>Where could those little rascals be hiding?<br><br>Better find them right meow!'
+      html: 'Oh no! One, two, three, four... all FIVE of my kittens are missing?!<br><br>Where could those little rascals be hiding?<br><br>Better find them right meow!'
     }, {
       requires: ['kitten1', 'kitten2', 'kitten3', 'kitten4', 'kitten5'],
       html: 'Alright: one, two, three, four... Five! The litter is complete again.<br><br>Cat-astrophe averted! We did it!',
