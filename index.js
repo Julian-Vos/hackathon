@@ -62,8 +62,8 @@ images.Doos.addEventListener('load', () => {
 }, { once: true })
 
 const sounds = Object.fromEntries([
-  ['catstronaut_theme', 0.8, 'mp3'],
-  ['criminal_cat_meow', 0.5],
+  ['catstronaut_theme', 0.6, 'mp3'],
+  ['criminal_cat_meow', 0.7],
   ['engine', 0],
   ['game_complete_purring', 1, 'mp3'],
   ['item_received', 1],
@@ -72,9 +72,9 @@ const sounds = Object.fromEntries([
   ['menu_open', 1],
   ['mouse_over_effect_short', 1],
   ['no_space_for_kitten', 1],
-  ['notification', 1],
+  ['notification', 0.8],
   ['ship_upgrade', 1],
-  ['starting_game', 1],
+  ['starting_game', 0.9],
   ['typewriter', 1]
 ].map(([filename, volume, extension = 'wav']) => {
   assetsToDownload++
