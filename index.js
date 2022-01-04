@@ -16,6 +16,7 @@ function fitCanvasToViewPort() {
   canvas.width = innerWidth * devicePixelRatio
   canvas.height = innerHeight * devicePixelRatio
 
+  context.scale(devicePixelRatio / 2, devicePixelRatio / 2)
   context.strokeStyle = 'white'
 }
 
@@ -478,13 +479,15 @@ function loop(currentTime) {
   player.update((currentTime - previousTime) / 1000)
   previousTime = currentTime
 
-  const cameraX = Math.min(Math.max(player.x - canvas.width / 2, -7200), 7200 - canvas.width)
-  const cameraY = Math.min(Math.max(player.y - canvas.height / 2, -4500), 4500 - canvas.height)
-  const centerX = cameraX + canvas.width / 2
-  const centerY = cameraY + canvas.height / 2
+  const canvasWidth = canvas.width * 2 / devicePixelRatio
+  const canvasHeight = canvas.height * 2 / devicePixelRatio
+  const cameraX = Math.min(Math.max(player.x - canvasWidth / 2, -7200), 7200 - canvasWidth)
+  const cameraY = Math.min(Math.max(player.y - canvasHeight / 2, -4500), 4500 - canvasHeight)
+  const centerX = cameraX + canvasWidth / 2
+  const centerY = cameraY + canvasHeight / 2
 
-  context.fillStyle = '#000522'
-  context.fillRect(0, 0, canvas.width, canvas.height)
+  context.fillStyle = '#00011c'
+  context.fillRect(0, 0, canvasWidth, canvasHeight)
   context.translate(-cameraX, -cameraY)
 
   context.drawImage(images.Sterren1, centerX / 1.6 - 3600, centerY / 1.6 - 2250, 7200, 4500)
